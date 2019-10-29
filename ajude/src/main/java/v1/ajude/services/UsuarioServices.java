@@ -20,7 +20,12 @@ public class UsuarioServices {
     }
 
     public Usuario addUsuario(Usuario usuario) {
-        return usuariosDAO.save(usuario);
+        Usuario searchUser = this.usuariosDAO.findByEmail(usuario.getEmail()).get();
+        System.out.println(searchUser);
+        if (searchUser == null) {
+            return usuariosDAO.save(usuario);
+        }
+        return null;
     }
 
     public Optional<Usuario> getUsuario(String email) {

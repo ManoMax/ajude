@@ -7,14 +7,15 @@ import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-//import io.jsonwebtoken.Jwts;
-//import io.jsonwebtoken.SignatureException;
-//import io.jsonwebtoken.ExpiredJwtException;
-//import io.jsonwebtoken.MalformedJwtException;
-//import io.jsonwebtoken.PrematureJwtException;
-//import io.jsonwebtoken.UnsupportedJwtException;
+import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.SignatureException;
+import io.jsonwebtoken.ExpiredJwtException;
+import io.jsonwebtoken.MalformedJwtException;
+import io.jsonwebtoken.PrematureJwtException;
+import io.jsonwebtoken.UnsupportedJwtException;
 
 public class FiltroToken extends GenericFilterBean {
     public final static int TOKEN_INDEX = 7;
@@ -34,12 +35,12 @@ public class FiltroToken extends GenericFilterBean {
         // Extraindo apenas o token do cabecalho.
         String token = header.substring(TOKEN_INDEX);
 
-//        try {
-//            Jwts.parser().setSigningKey("login do ajude").parseClaimsJws(token).getBody();
-//        } catch(SignatureException | ExpiredJwtException | MalformedJwtException | PrematureJwtException | UnsupportedJwtException | IllegalArgumentException e) {
-//            ((HttpServletResponse) response).sendError(HttpServletResponse.SC_UNAUTHORIZED, e.getMessage());
-//            return;
-//        }
+        try {
+            Jwts.parser().setSigningKey("login do ajude").parseClaimsJws(token).getBody();
+        } catch(SignatureException | ExpiredJwtException | MalformedJwtException | PrematureJwtException | UnsupportedJwtException | IllegalArgumentException e) {
+            ((HttpServletResponse) response).sendError(HttpServletResponse.SC_UNAUTHORIZED, e.getMessage());
+            return;
+        }
 
         chain.doFilter(request, response);
     }

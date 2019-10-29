@@ -1,12 +1,13 @@
 package v1.ajude.services;
 
-//import io.jsonwebtoken.Jwts;
-//import io.jsonwebtoken.SignatureAlgorithm;
-//import io.jsonwebtoken.SignatureException;
+import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.SignatureAlgorithm;
+import io.jsonwebtoken.SignatureException;
 import org.springframework.stereotype.Service;
 import v1.ajude.models.Usuario;
 
 import javax.servlet.ServletException;
+import java.util.Date;
 import java.util.Optional;
 
 @Service
@@ -20,11 +21,11 @@ public class JWTService {
         this.usuariosService = usuarioServices;
     }
 
-//    public String geraToken(String email) {
-//        return Jwts.builder().setSubject(email)
-//                .signWith(SignatureAlgorithm.HS512, TOKEN_KEY)
-//                .setExpiration(new Date(System.currentTimeMillis() + 5 * 60 * 1000)).compact(); //3 min
-//    }
+    public String geraToken(String email) {
+        return Jwts.builder().setSubject(email)
+                .signWith(SignatureAlgorithm.HS512, TOKEN_KEY)
+                .setExpiration(new Date(System.currentTimeMillis() + 5 * 60 * 1000)).compact(); //5 min
+    }
 
     public boolean usuarioTemPermissao(String authorizationHeader, String email) throws ServletException {
         String subject = getSujeitoDoToken(authorizationHeader);
@@ -42,11 +43,11 @@ public class JWTService {
         String token = authorizationHeader.substring(v1.ajude.filters.FiltroToken.TOKEN_INDEX);
 
         String subject = null;
-//        try {
-//            subject = Jwts.parser().setSigningKey("login do ajude").parseClaimsJws(token).getBody().getSubject();
-//        } catch (SignatureException e) {
-//            throw new ServletException("Token invalido ou expirado!");
-//        }
+        try {
+            subject = Jwts.parser().setSigningKey("login do ajude").parseClaimsJws(token).getBody().getSubject();
+        } catch (SignatureException e) {
+            throw new ServletException("Token invalido ou expirado!");
+        }
         return subject;
     }
 }
