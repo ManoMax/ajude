@@ -34,12 +34,12 @@ public class JWTService {
         return optUsuario.isPresent() && optUsuario.get().getEmail().equals(email);
     }
 
-    private String getSujeitoDoToken(String authorizationHeader) throws ServletException {
+    public String getSujeitoDoToken(String authorizationHeader) throws ServletException {
         if (authorizationHeader == null || !authorizationHeader.startsWith("Bearer ")) {
             throw new ServletException("Token inexistente ou mal formatado!");
         }
 
-        // Extraindo apenas o token do cabecalho.
+        // Extraindo Token do Cabecalho.
         String token = authorizationHeader.substring(v1.ajude.filters.FiltroToken.TOKEN_INDEX);
 
         String subject = null;
@@ -49,5 +49,11 @@ public class JWTService {
             throw new ServletException("Token invalido ou expirado!");
         }
         return subject;
+    }
+
+    public boolean usuarioExiste(String authorizationHeader) throws ServletException {
+        String subject = getSujeitoDoToken(authorizationHeader);
+
+        return usuariosService.exist(subject);
     }
 }

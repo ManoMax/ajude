@@ -20,9 +20,9 @@ public class UsuarioServices {
     }
 
     public Usuario addUsuario(Usuario usuario) {
-        Usuario searchUser = this.usuariosDAO.findByEmail(usuario.getEmail()).get();
+        Optional<Usuario> searchUser = this.usuariosDAO.findByEmail(usuario.getEmail());
         System.out.println(searchUser);
-        if (searchUser == null) {
+        if (!searchUser.isPresent()) {
             return usuariosDAO.save(usuario);
         }
         return null;
@@ -34,5 +34,35 @@ public class UsuarioServices {
 
     public Collection<Usuario> getUsuarios() {
         return usuariosDAO.findAll();
+    }
+
+    public boolean exist(Usuario usuario) {
+        Optional<Usuario> user = usuariosDAO.findById(usuario.getEmail());
+
+        return user.isPresent();
+    }
+
+    public boolean exist(String emailUsuario) {
+        Optional<Usuario> user = usuariosDAO.findById(emailUsuario);
+
+        return user.isPresent();
+    }
+
+    public boolean verificaSenha(Usuario usuario) {
+        if (usuario.getEmail() != null) {
+
+            Optional<Usuario> user = usuariosDAO.findById(usuario.getEmail());
+
+            return user.isPresent() && user.get().getSenha().equals(usuario.getSenha());
+
+        }
+        return false;
+    }
+
+
+    public Optional<Usuario> remove(String email) {
+        Optional<Usuario> user = getUsuario(email);
+        usuariosDAO.deleteById(email);
+        return user;
     }
 }

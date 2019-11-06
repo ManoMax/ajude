@@ -9,6 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import javax.servlet.ServletException;
 import java.util.Collection;
 
 @RestController
@@ -17,7 +18,7 @@ public class UsuarioController {
 
     @Autowired
     private UsuarioServices usuarioServices;
-    @SuppressWarnings("unused")
+    @Autowired
     private JWTService jwtService;
 
     public UsuarioController(UsuarioServices usuarioServices, JWTService jwtService) {
@@ -39,5 +40,21 @@ public class UsuarioController {
     @RequestMapping("/list")
     public ResponseEntity<Collection<Usuario>>  getUsuarios(){
         return  new ResponseEntity<Collection<Usuario>>(usuarioServices.getUsuarios(),HttpStatus.OK);
+    }
+
+    @DeleteMapping("/delete")
+    public ResponseEntity<Usuario> deleteUsuario(@RequestHeader ("Authorization") String header) {
+
+        try {
+            String email = jwtService.getSujeitoDoToken(header);
+            System.out.println(email);
+            if(jwtService.usuarioExiste(header)) {
+                return new ResponseEntity<Usuario>(usuarioServices.remove(email).get(), HttpStatus.OK);
+            }
+        }catch(ServletException e){
+            return new ResponseEntity<Usuario>(HttpStatus.FORBIDDEN);
+        }
+
+        return new ResponseEntity<Usuario>(HttpStatus.UNAUTHORIZED);
     }
 }
