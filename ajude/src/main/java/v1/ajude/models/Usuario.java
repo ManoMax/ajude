@@ -6,8 +6,8 @@ import javax.persistence.Entity;
 @Entity
 public class Usuario {
 
-    private String firstName;
-    private String lastName;
+    private String primeiroNome;
+    private String ultimoNome;
     @Id
     private String email;
     private String numCartao;
@@ -16,20 +16,20 @@ public class Usuario {
     public Usuario() {
         super();
     }
-    public Usuario(String firstName, String lastName, String email, String numCartao, String senha) {
+    public Usuario(String primeiroNome, String ultimoNome, String email, String numCartao, String senha) {
         super();
-        this.firstName = firstName;
-        this.lastName = lastName;
+        this.primeiroNome = primeiroNome;
+        this.ultimoNome = ultimoNome;
         this.email = email;
         this.numCartao = numCartao;
         this.senha = senha;
     }
 
-    public String getFirstName() {
-        return this.firstName;
+    public String getPrimeiroNome() {
+        return this.primeiroNome;
     }
-    public String getLastName() {
-        return this.lastName;
+    public String getUltimoNome() {
+        return this.ultimoNome;
     }
     public String getEmail() {
         return this.email;
@@ -41,11 +41,11 @@ public class Usuario {
         return this.senha;
     }
 
-    public void setFirstName(String firstName) {
-        this.firstName = firstName;
+    public void setPrimeiroNome(String primeiroNome) {
+        this.primeiroNome = primeiroNome;
     }
-    public void setLastName(String lastName) {
-        this.lastName = lastName;
+    public void setUltimoNome(String ultimoNome) {
+        this.ultimoNome = ultimoNome;
     }
     public void setEmail(String email) {
         this.email = email;

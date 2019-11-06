@@ -47,7 +47,7 @@ public class UsuarioController {
 
         try {
             String email = jwtService.getSujeitoDoToken(header);
-            System.out.println(email);
+            // System.out.println(email);
             if(jwtService.usuarioExiste(header)) {
                 return new ResponseEntity<Usuario>(usuarioServices.remove(email).get(), HttpStatus.OK);
             }
