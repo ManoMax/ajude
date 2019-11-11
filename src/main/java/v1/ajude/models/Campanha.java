@@ -1,9 +1,6 @@
 package v1.ajude.models;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.Date;
 
@@ -20,6 +17,7 @@ public class Campanha {
     private boolean status; // Ativo ou Desativo
     private float meta; // (reais)
     private float doacoes;
+    @OneToOne
     private Usuario dono;
     // private ArrayList<Comentario> comentarios;
     // private ArrayList<Like> likes;
