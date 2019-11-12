@@ -14,14 +14,6 @@ import javax.servlet.ServletException;
 @RequestMapping("/campanha")
 public class CampanhaController {
 
-    /*
-     * TODO
-     *
-     * Questionar criação de Util/Service para esses Try Catch
-     * (Presentes em CampanhaController e UsuariosController)
-     *
-     */
-
     @Autowired
     private CampanhaServices campanhaServices;
     @Autowired
@@ -38,7 +30,7 @@ public class CampanhaController {
         try {
             if(jwtService.usuarioExiste(header)) {
                 String email = jwtService.getSujeitoDoToken(header);
-                return new ResponseEntity<Campanha>(campanhaServices.criarCampanha(email, campanha).get(), HttpStatus.OK);
+                return new ResponseEntity<Campanha>(campanhaServices.criarCampanha(email, campanha), HttpStatus.OK);
             }
         }catch(ServletException e){
             return new ResponseEntity<Campanha>(HttpStatus.FORBIDDEN);

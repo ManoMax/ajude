@@ -1,6 +1,8 @@
 package v1.ajude.models;
 
 import javax.persistence.*;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 
@@ -13,30 +15,40 @@ public class Campanha {
     private String nomeCurto;
     private String URL; // identificador de URL único da campanha (gerado pelo frontend a partir do nome curto),
     private String descricao;
-    private Date deadLine; // (data) para arrecadação,
-    private boolean status; // Ativo ou Desativo
+    private Date deadLine; // (término)
+    private boolean status; // (Ativo ou Desativo)
     private float meta; // (reais)
     private float doacoes;
-    @OneToOne
+    @ManyToOne
     private Usuario dono;
-    // private ArrayList<Comentario> comentarios;
-    // private ArrayList<Like> likes;
+    /*
+    private ArrayList<Comentario> comentarios;
+    private ArrayList<Like> likes;
+    */
 
     public Campanha() {
         super();
     }
 
-    public Campanha(String nomeCurto, String URL, String descricao, float meta, Usuario dono) {
+    public Campanha(String nomeCurto, String descricao, float meta, Usuario dono) {
         this.nomeCurto = nomeCurto;
-        // this.URL = URL;
+        // this.URL = URL; // Criar um metodo que constroi.
         this.descricao = descricao;
+
+        /*String sDate1="31/12/1998";
+        Date date1=new SimpleDateFormat("dd/MM/yyyy").parse(sDate1);
+        System.out.println(sDate1+"\t"+date1);
+        */
+
         // this.deadLine = deadLine;
         this.status = true;
         this.meta = meta;
         this.doacoes = 0;
         this.dono = dono;
-        // this.comentarios = new ArrayList<Comentario>();
-        // this.likes = new ArrayList<Like>();
+        /*
+        this.comentarios = new ArrayList<Comentario>();
+        this.likes = new ArrayList<Like>();
+        */
     }
 
     public long getId() {
@@ -54,6 +66,12 @@ public class Campanha {
     public Date getDeadLine() {
         return this.deadLine;
     }
+    public String getStringDeadLine() {
+        Date date = this.deadLine;
+        DateFormat dateFormat = new SimpleDateFormat("dd-mm-yyyy");
+        String strDate = dateFormat.format(date);
+        return strDate;
+    }
     public boolean getStatus() {
         return this.status;
     }
@@ -66,12 +84,14 @@ public class Campanha {
     public Usuario getDono() {
         return this.dono;
     }
-    // public ArrayList<Comentario> getComentarios() {
-    //    return this.comentarios;
-    //}
-    //public ArrayList<Like> getLikes() {
-    //    return this.likes;
-    //}
+    /*
+    public ArrayList<Comentario> getComentarios() {
+        return this.comentarios;
+    }
+    public ArrayList<Like> getLikes() {
+        return this.likes;
+    }
+    */
 
     public void setNomeCurto(String nomeCurto) {
         this.nomeCurto = nomeCurto;
@@ -97,10 +117,12 @@ public class Campanha {
     public void setDono(Usuario dono) {
         this.dono = dono;
     }
-    //public void setComentarios(ArrayList<Comentario> comentarios) {
-    //    this.comentarios = comentarios;
-    //}
-    //public void setLikes(ArrayList<Like> likes) {
-    //    this.likes = likes;
-    //}
+    /*
+    public void setComentarios(ArrayList<Comentario> comentarios) {
+        this.comentarios = comentarios;
+    }
+    public void setLikes(ArrayList<Like> likes) {
+        this.likes = likes;
+    }
+    */
 }

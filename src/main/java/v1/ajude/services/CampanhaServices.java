@@ -13,12 +13,21 @@ public class CampanhaServices {
     @Autowired
     private CampanhaRepository<Campanha, Integer> campanhasDAO;
 
+    @Autowired
+    private UsuarioServices usuarioServices;
+
     public CampanhaServices(CampanhaRepository<Campanha, Integer> campanhasDAO) {
         super();
         this.campanhasDAO = campanhasDAO;
     }
 
-    public Optional<Campanha> criarCampanha(String email, Campanha campanha) {
+    public Campanha criarCampanha(String email, Campanha campanha) {
+        Optional<Campanha> searchCampanha = this.campanhasDAO.findById(campanha.getId());
+        if (!searchCampanha.isPresent()) {
+            Campanha campanhaConstruct = new Campanha(campanha.getNomeCurto(), campanha.getDescricao(),
+            campanha.getMeta(), usuarioServices.getUsuario(email).get());
+            return campanhasDAO.save(campanhaConstruct);
+        }
         return null;
     }
 }
