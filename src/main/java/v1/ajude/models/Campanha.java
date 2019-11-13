@@ -2,6 +2,7 @@ package v1.ajude.models;
 
 import javax.persistence.*;
 import java.text.DateFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -30,17 +31,20 @@ public class Campanha {
         super();
     }
 
-    public Campanha(String nomeCurto, String descricao, float meta, Usuario dono) {
+    public Campanha(String nomeCurto, String descricao, String data, float meta, Usuario dono) {
         this.nomeCurto = nomeCurto;
         // this.URL = URL; // Criar um metodo que constroi.
         this.descricao = descricao;
 
-        /*String sDate1="31/12/1998";
-        Date date1=new SimpleDateFormat("dd/MM/yyyy").parse(sDate1);
-        System.out.println(sDate1+"\t"+date1);
-        */
+        String sDate1 = data;
+        Date date1 = null;
+        try {
+            date1 = new SimpleDateFormat("yyyy-MM-dd").parse(sDate1);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
 
-        // this.deadLine = deadLine;
+        this.deadLine = date1;
         this.status = true;
         this.meta = meta;
         this.doacoes = 0;
@@ -68,7 +72,7 @@ public class Campanha {
     }
     public String getStringDeadLine() {
         Date date = this.deadLine;
-        DateFormat dateFormat = new SimpleDateFormat("dd-mm-yyyy");
+        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
         String strDate = dateFormat.format(date);
         return strDate;
     }
