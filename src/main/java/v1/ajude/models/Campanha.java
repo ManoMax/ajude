@@ -1,5 +1,7 @@
 package v1.ajude.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import java.text.DateFormat;
 import java.text.ParseException;
@@ -17,10 +19,12 @@ public class Campanha {
     private String URL; // identificador de URL único da campanha (gerado pelo frontend a partir do nome curto),
     private String descricao;
     private Date deadLine; // (término)
-    private boolean status; // (Ativo ou Desativo)
+    private String status; // (Ativo ou Desativo)
     private float meta; // (reais)
     private float doacoes;
     @ManyToOne
+    @JoinColumn(name = "email")
+    @JsonIgnore
     private Usuario dono;
     /*
     private ArrayList<Comentario> comentarios;
@@ -31,7 +35,7 @@ public class Campanha {
         super();
     }
 
-    public Campanha(String nomeCurto, String descricao, String data, float meta, Usuario dono) {
+    public Campanha(String nomeCurto, String descricao, String data, String status, float meta, Usuario dono) {
         this.nomeCurto = nomeCurto;
         // this.URL = URL; // Criar um metodo que constroi.
         this.descricao = descricao;
@@ -45,7 +49,7 @@ public class Campanha {
         }
 
         this.deadLine = date1;
-        this.status = true;
+        this.status = status;
         this.meta = meta;
         this.doacoes = 0;
         this.dono = dono;
@@ -70,13 +74,14 @@ public class Campanha {
     public Date getDeadLine() {
         return this.deadLine;
     }
+    @JsonIgnore
     public String getStringDeadLine() {
         Date date = this.deadLine;
         DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
         String strDate = dateFormat.format(date);
         return strDate;
     }
-    public boolean getStatus() {
+    public String getStatus() {
         return this.status;
     }
     public float getMeta() {
@@ -87,6 +92,9 @@ public class Campanha {
     }
     public Usuario getDono() {
         return this.dono;
+    }
+    public String getIdDono() {
+        return this.dono.getEmail();
     }
     /*
     public ArrayList<Comentario> getComentarios() {
@@ -109,7 +117,7 @@ public class Campanha {
     public void setDeadLine(Date deadLine) {
         this.deadLine = deadLine;
     }
-    public void setStatus(boolean status) {
+    public void setStatus(String status) {
         this.status = status;
     }
     public void setMeta(float meta) {
