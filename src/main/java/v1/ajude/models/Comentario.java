@@ -1,28 +1,19 @@
 package v1.ajude.models;
 
-import org.springframework.data.annotation.Id;
-
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import java.util.ArrayList;
 
-public class Comentario {
+public class Comentario extends ComentarioAbstract {
 
-    private Usuario usuario;
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long idComent;
-    private String comentario;
-    // private ArrayList<Respostas> respostas;
+    private ArrayList<Respostas> respostas;
 
     public Comentario() {
         super();
+        this.respostas = new ArrayList<Respostas>();
     }
 
-    public Comentario(Usuario usuario, String comentario) {
-        this.usuario = usuario;
-        this.comentario = comentario;
+    public void addRespostas(Usuario usuario, String comentario) {
+        this.setUsuario(usuario);
+        respostas.add(new Respostas(comentario));
     }
-
 
 }
