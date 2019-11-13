@@ -28,7 +28,7 @@ public class Campanha {
     @JsonIgnore
     private Usuario dono;
     /*
-    private ArrayList<Comentario> comentarios;
+    private ArrayList<ComentarioAbstract> comentarios;
     private ArrayList<Like> likes;
     */
 
@@ -36,9 +36,9 @@ public class Campanha {
         super();
     }
 
-    public Campanha(String nomeCurto, String descricao, String data, String status, float meta, Usuario dono) {
+    public Campanha(String nomeCurto, String descricao, String data, String url, String status, float meta, Usuario dono) {
         this.nomeCurto = nomeCurto;
-        this.URL = createURL(nomeCurto);
+        this.URL = url;
         this.descricao = descricao;
 
         String sDate1 = data;
@@ -55,29 +55,9 @@ public class Campanha {
         this.doacoes = 0;
         this.dono = dono;
         /*
-        this.comentarios = new ArrayList<Comentario>();
+        this.comentarios = new ArrayList<ComentarioAbstract>();
         this.likes = new ArrayList<Like>();
         */
-    }
-
-    private String createURL(String nomeCurto) {
-        String saida = nomeCurto.replace(".", " ").replace(",", " ").replace("-", " ")
-                .replace("_", " ");
-        saida = Normalizer.normalize(saida, Normalizer.Form.NFD).replaceAll("[^\\p{ASCII}]", "");
-        saida = saida.toLowerCase();
-        saida = removeDuploEspaco(saida);
-        saida = saida.replaceAll(" ", "-");
-        return saida;
-    }
-
-    private String removeDuploEspaco(String nomeCurto) {
-        String saida = "";
-        for (int i = 1; i < nomeCurto.length(); i++) {
-            if (!(nomeCurto.charAt(i) == ' ' & nomeCurto.charAt(i - 1) == ' ')) {
-                saida += nomeCurto.charAt(i-1);
-            }
-        }
-        return saida;
     }
 
     public long getId() {
@@ -92,11 +72,11 @@ public class Campanha {
     public String getDescricao() {
         return this.descricao;
     }
-    public Date getDeadLine() {
+    @JsonIgnore
+    public Date getDataDeadLine() {
         return this.deadLine;
     }
-    @JsonIgnore
-    public String getStringDeadLine() {
+    public String getDeadLine() {
         Date date = this.deadLine;
         DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
         String strDate = dateFormat.format(date);
@@ -118,7 +98,7 @@ public class Campanha {
         return this.dono.getEmail();
     }
     /*
-    public ArrayList<Comentario> getComentarios() {
+    public ArrayList<ComentarioAbstract> getComentarios() {
         return this.comentarios;
     }
     public ArrayList<Like> getLikes() {
@@ -151,7 +131,7 @@ public class Campanha {
         this.dono = dono;
     }
     /*
-    public void setComentarios(ArrayList<Comentario> comentarios) {
+    public void setComentarios(ArrayList<ComentarioAbstract> comentarios) {
         this.comentarios = comentarios;
     }
     public void setLikes(ArrayList<Like> likes) {

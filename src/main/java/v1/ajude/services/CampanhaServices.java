@@ -28,7 +28,7 @@ public class CampanhaServices {
         Optional<Campanha> searchCampanha = this.campanhasDAO.findById(campanha.getId());
         if (!searchCampanha.isPresent()) {
             Campanha campanhaConstruct = new Campanha(campanha.getNomeCurto(), campanha.getDescricao(),
-                    campanha.getStringDeadLine(), campanha.getStatus(), campanha.getMeta(), usuarioServices.getUsuario(email).get());
+                    campanha.getDeadLine(), campanha.getURL(), campanha.getStatus(), campanha.getMeta(), usuarioServices.getUsuario(email).get());
             return campanhasDAO.save(campanhaConstruct);
         }
         return null;
