@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
 import java.text.DateFormat;
+import java.text.Normalizer;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -37,7 +38,7 @@ public class Campanha {
 
     public Campanha(String nomeCurto, String descricao, String data, String status, float meta, Usuario dono) {
         this.nomeCurto = nomeCurto;
-        // this.URL = URL; // Criar um metodo que constroi.
+        this.URL = createURL(nomeCurto);
         this.descricao = descricao;
 
         String sDate1 = data;
@@ -57,6 +58,26 @@ public class Campanha {
         this.comentarios = new ArrayList<Comentario>();
         this.likes = new ArrayList<Like>();
         */
+    }
+
+    private String createURL(String nomeCurto) {
+        String saida = nomeCurto.replace(".", " ").replace(",", " ").replace("-", " ")
+                .replace("_", " ");
+        saida = Normalizer.normalize(saida, Normalizer.Form.NFD).replaceAll("[^\\p{ASCII}]", "");
+        saida = saida.toLowerCase();
+        saida = removeDuploEspaco(saida);
+        saida = saida.replaceAll(" ", "-");
+        return saida;
+    }
+
+    private String removeDuploEspaco(String nomeCurto) {
+        String saida = "";
+        for (int i = 1; i < nomeCurto.length(); i++) {
+            if (!(nomeCurto.charAt(i) == ' ' & nomeCurto.charAt(i - 1) == ' ')) {
+                saida += nomeCurto.charAt(i-1);
+            }
+        }
+        return saida;
     }
 
     public long getId() {
