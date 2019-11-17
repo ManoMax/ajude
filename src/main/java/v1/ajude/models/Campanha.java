@@ -3,12 +3,8 @@ package v1.ajude.models;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
-import java.text.DateFormat;
-import java.text.Normalizer;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
+import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Date;
 
 @Entity
 public class Campanha {
@@ -19,7 +15,7 @@ public class Campanha {
     private String nomeCurto;
     private String URL; // identificador de URL único da campanha (gerado pelo frontend a partir do nome curto),
     private String descricao;
-    private Date deadLine; // (término)
+    private LocalDate deadLine; // (término)
     private String status; // (Ativo ou Desativo)
     private float meta; // (reais)
     private float doacoes;
@@ -36,21 +32,13 @@ public class Campanha {
         super();
     }
 
-    public Campanha(String nomeCurto, String descricao, String data, String url, String status, float meta, Usuario dono) {
+    public Campanha(String nomeCurto, String descricao, String deadLine, String url, float meta, Usuario dono) {
+        super();
         this.nomeCurto = nomeCurto;
         this.URL = url;
         this.descricao = descricao;
-
-        String sDate1 = data;
-        Date date1 = null;
-        try {
-            date1 = new SimpleDateFormat("yyyy-MM-dd").parse(sDate1);
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
-
-        this.deadLine = date1;
-        this.status = status;
+        this.deadLine = LocalDate.parse(deadLine); // Format: "2016-08-16"
+        this.status = "Ativa";
         this.meta = meta;
         this.doacoes = 0;
         this.dono = dono;
@@ -72,15 +60,12 @@ public class Campanha {
     public String getDescricao() {
         return this.descricao;
     }
-    @JsonIgnore
-    public Date getDataDeadLine() {
+    public LocalDate getDeadLine() {
         return this.deadLine;
     }
-    public String getDeadLine() {
-        Date date = this.deadLine;
-        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-        String strDate = dateFormat.format(date);
-        return strDate;
+    @JsonIgnore
+    public String getDeadLineToString() {
+        return this.deadLine.toString();
     }
     public String getStatus() {
         return this.status;
@@ -115,11 +100,20 @@ public class Campanha {
     public void setDescricao(String descricao) {
         this.descricao = descricao;
     }
-    public void setDeadLine(Date deadLine) {
-        this.deadLine = deadLine;
+    public void setDeadLine(String deadLine) {
+        this.deadLine = LocalDate.parse(deadLine); // Format: "2016-08-16"
     }
-    public void setStatus(String status) {
-        this.status = status;
+    public void setStatus(boolean encerramento) {
+        if (this.deadLine.isBefore(LocalDate.now())) {
+            if(this.meta <= this.doacoes) {
+                this.status = "Concluída";
+            } else  {
+                this.status = "Vencida";
+            }
+        }
+        if (encerramento) {
+            this.status = "Encerrada";
+        }
     }
     public void setMeta(float meta) {
         this.meta = meta;
