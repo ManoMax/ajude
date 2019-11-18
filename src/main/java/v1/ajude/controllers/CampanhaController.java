@@ -65,5 +65,22 @@ public class CampanhaController {
         return new ResponseEntity<Campanha>(HttpStatus.UNAUTHORIZED);
     }
 
+    @PostMapping("{id}/comentario")
+    public ResponseEntity<Campanha> addComentario(@PathVariable Long id, @RequestBody Comentario comentario, @RequestHeader("Authorization") String header) {
+        try {
+            if(jwtService.usuarioExiste(header)) {
+                Optional<Campanha> campanha = campanhaServices.getCampanha(id);
+                String email = jwtService.getSujeitoDoToken(header);
+                if (campanha.isPresent()) {
+                    return new ResponseEntity<Campanha>(campanhaServices.addComentario(campanha.get(), comentario, email), HttpStatus.OK);
+                } else {
+                    return new ResponseEntity<Campanha>(HttpStatus.NOT_FOUND);
+                }
+            }
+        }catch(ServletException e){
+            return new ResponseEntity<Campanha>(HttpStatus.FORBIDDEN);
+        }
+        return new ResponseEntity<Campanha>(HttpStatus.UNAUTHORIZED);
+    }
 
 }

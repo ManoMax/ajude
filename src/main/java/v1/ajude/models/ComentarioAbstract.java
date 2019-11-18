@@ -1,13 +1,15 @@
 package v1.ajude.models;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import lombok.Getter;
+import lombok.ToString;
 import org.springframework.data.annotation.Id;
 
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
+import javax.persistence.*;
 
+@MappedSuperclass
+@Getter
+@ToString
 public abstract class ComentarioAbstract {
 
     @ManyToOne

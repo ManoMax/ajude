@@ -23,8 +23,9 @@ public class Campanha {
     @JoinColumn(name = "email")
     @JsonIgnore
     private Usuario dono;
-    /*
+    @OneToOne
     private ArrayList<ComentarioAbstract> comentarios;
+    /*
     private ArrayList<Like> likes;
     */
 
@@ -42,8 +43,8 @@ public class Campanha {
         this.meta = meta;
         this.doacoes = 0;
         this.dono = dono;
-        /*
         this.comentarios = new ArrayList<ComentarioAbstract>();
+        /*
         this.likes = new ArrayList<Like>();
         */
     }
@@ -82,10 +83,10 @@ public class Campanha {
     public String getIdDono() {
         return this.dono.getEmail();
     }
-    /*
     public ArrayList<ComentarioAbstract> getComentarios() {
         return this.comentarios;
     }
+    /*
     public ArrayList<Like> getLikes() {
         return this.likes;
     }
@@ -126,10 +127,12 @@ public class Campanha {
     public void setDono(Usuario dono) {
         this.dono = dono;
     }
-    /*
-    public void setComentarios(ArrayList<ComentarioAbstract> comentarios) {
-        this.comentarios = comentarios;
+
+    public void addComentario(Comentario comentario, Usuario usuario) {
+        this.comentarios.add(new Comentario(usuario, comentario.getComentario()));
     }
+
+    /*
     public void setLikes(ArrayList<Like> likes) {
         this.likes = likes;
     }
