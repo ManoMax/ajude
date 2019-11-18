@@ -48,7 +48,7 @@ public class CampanhaController {
         return new ResponseEntity<Campanha>(HttpStatus.NOT_FOUND);
     }
 
-    @PostMapping("/{id}/status")
+    @RequestMapping("/{id}/status")
     public ResponseEntity<Campanha> setStatus(@PathVariable Long id, @RequestHeader("Authorization") String header) {
         try {
             if(jwtService.usuarioExiste(header)) {
@@ -64,5 +64,6 @@ public class CampanhaController {
         }
         return new ResponseEntity<Campanha>(HttpStatus.UNAUTHORIZED);
     }
+
 
 }

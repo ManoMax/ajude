@@ -103,9 +103,10 @@ public class Campanha {
     public void setDeadLine(String deadLine) {
         this.deadLine = LocalDate.parse(deadLine); // Format: "2016-08-16"
     }
+
     public void setStatus(boolean encerramento) {
         if (this.deadLine.isBefore(LocalDate.now())) {
-            if(this.meta <= this.doacoes) {
+            if(this.doacoes >= this.meta) {
                 this.status = "Concluída";
             } else  {
                 this.status = "Vencida";
@@ -115,6 +116,7 @@ public class Campanha {
             this.status = "Encerrada";
         }
     }
+
     public void setMeta(float meta) {
         this.meta = meta;
     }

@@ -34,8 +34,9 @@ public class CampanhaServices {
     // Encerra Campanha
     public Campanha setStatus(Campanha campanha) {
         Optional<Campanha> searchCampanha = this.campanhasDAO.findById(campanha.getId());
-        if (!searchCampanha.isPresent()) {
-            campanhasDAO.findById(campanha.getId()).get().setStatus(true);
+        if (searchCampanha.isPresent()) {
+            searchCampanha.get().setStatus(true);
+            campanhasDAO.save(searchCampanha.get());
             return searchCampanha.get();
         }
         return null;
