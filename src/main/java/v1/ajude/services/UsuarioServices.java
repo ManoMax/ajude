@@ -21,7 +21,6 @@ public class UsuarioServices {
 
     public Usuario addUsuario(Usuario usuario) {
         Optional<Usuario> searchUser = this.usuariosDAO.findByEmail(usuario.getEmail());
-        System.out.println(searchUser);
         if (!searchUser.isPresent()) {
             return usuariosDAO.save(usuario);
         }
