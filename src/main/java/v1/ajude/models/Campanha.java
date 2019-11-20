@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import javax.persistence.*;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 public class Campanha {
@@ -23,8 +24,8 @@ public class Campanha {
     @JoinColumn(name = "email")
     @JsonIgnore
     private Usuario dono;
-    @OneToOne
-    private ArrayList<ComentarioAbstract> comentarios;
+    @OneToMany
+    private List<Comentario> comentarios;
     /*
     private ArrayList<Like> likes;
     */
@@ -43,7 +44,7 @@ public class Campanha {
         this.meta = meta;
         this.doacoes = 0;
         this.dono = dono;
-        this.comentarios = new ArrayList<ComentarioAbstract>();
+        this.comentarios = new ArrayList<Comentario>();
         /*
         this.likes = new ArrayList<Like>();
         */
@@ -61,11 +62,11 @@ public class Campanha {
     public String getDescricao() {
         return this.descricao;
     }
-    public LocalDate getDeadLine() {
+    @JsonIgnore
+    public LocalDate getDeadLineData() {
         return this.deadLine;
     }
-    @JsonIgnore
-    public String getDeadLineToString() {
+    public String getDeadLine() {
         return this.deadLine.toString();
     }
     public String getStatus() {
@@ -83,7 +84,7 @@ public class Campanha {
     public String getIdDono() {
         return this.dono.getEmail();
     }
-    public ArrayList<ComentarioAbstract> getComentarios() {
+    public List<Comentario> getComentarios() {
         return this.comentarios;
     }
     /*
@@ -128,8 +129,8 @@ public class Campanha {
         this.dono = dono;
     }
 
-    public void addComentario(Comentario comentario, Usuario usuario) {
-        this.comentarios.add(new Comentario(usuario, comentario.getComentario()));
+    public Comentario getComentario(int idComentario) {
+        return this.comentarios.get(idComentario);
     }
 
     /*

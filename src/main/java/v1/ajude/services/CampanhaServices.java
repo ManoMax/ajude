@@ -3,8 +3,10 @@ package v1.ajude.services;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import v1.ajude.daos.CampanhaRepository;
+import v1.ajude.daos.ComentarioRepository;
 import v1.ajude.models.Campanha;
 import v1.ajude.models.Comentario;
+import v1.ajude.models.Resposta;
 import v1.ajude.models.Usuario;
 
 import java.util.Optional;
@@ -16,6 +18,9 @@ public class CampanhaServices {
     private CampanhaRepository<Campanha, Integer> campanhasDAO;
 
     @Autowired
+    private ComentarioRepository<Comentario, Integer> comentariosDAO;
+
+    @Autowired
     private UsuarioServices usuarioServices;
 
     public CampanhaServices(CampanhaRepository<Campanha, Integer> campanhasDAO) {
@@ -23,31 +28,89 @@ public class CampanhaServices {
     }
 
     public Campanha criarCampanha(String email, Campanha campanha) {
-        Optional<Campanha> searchCampanha = this.campanhasDAO.findById(campanha.getId());
-        Campanha campanhaConstruct = new Campanha(campanha.getNomeCurto(), campanha.getDescricao(),
-                campanha.getDeadLineToString(), campanha.getURL(), campanha.getMeta(), usuarioServices.getUsuario(email).get());
-        return campanhasDAO.save(campanhaConstruct);
-    }
+        Campanha campanhaSalva = recuperaCampanha(campanha);
 
-    public Campanha setStatus(Campanha campanha) {
-        Optional<Campanha> searchCampanha = this.campanhasDAO.findById(campanha.getId());
-        // Encerra Campanha
-        searchCampanha.get().setStatus(true);
-        campanhasDAO.save(searchCampanha.get());
-        return searchCampanha.get();
+        if (campanhaSalva == null) {
+            Campanha campanhaConstruct = new Campanha(campanha.getNomeCurto(), campanha.getDescricao(),
+                    campanha.getDeadLine(), campanha.getURL(), campanha.getMeta(), usuarioServices.getUsuario(email).get());
+            return campanhasDAO.save(campanhaConstruct);
+        }
+        return null;
     }
 
     public Optional<Campanha> getCampanha(Long id) {
-        // Atualiza Status Campanha, sem encerrar
-        campanhasDAO.findById(id).get().setStatus(false);
-        return campanhasDAO.findById(id);
+        Campanha campanhaSalva = recuperaCampanha(id);
+
+        if (campanhaSalva != null) {
+            // Atualiza Status Campanha, sem encerrar
+            campanhaSalva.setStatus(false);
+            campanhasDAO.save(campanhaSalva);
+            return campanhasDAO.findById(id);
+        }
+        return null;
     }
 
-    public Campanha addComentario(Campanha campanha, Comentario comentario, String email) {
-        Optional<Campanha> searchCampanha = this.campanhasDAO.findById(campanha.getId());
-        Usuario usuario = usuarioServices.getUsuario(email).get();
-        searchCampanha.get().addComentario(comentario, usuario);
-        campanhasDAO.save(searchCampanha.get());
-        return searchCampanha.get();
+    public Campanha setStatus(Campanha campanha) {
+        Campanha campanhaSalva = recuperaCampanha(campanha);
+
+        if (campanhaSalva != null) {
+            // Encerra Campanha
+            campanhaSalva.setStatus(true);
+            campanhasDAO.save(campanhaSalva);
+            return campanhaSalva;
+        }
+        return null;
     }
+
+    public Comentario addComentario(Campanha campanha, Comentario comentario, String email) {
+        Campanha campanhaSalva = recuperaCampanha(campanha);
+        Usuario usuarioSalvo = recuperaUsuario(email);
+
+        if (campanhaSalva != null && usuarioSalvo != null) {
+            Comentario novoComentario = new Comentario(campanhaSalva, usuarioSalvo, comentario.getTextoComentario());
+            comentariosDAO.save(novoComentario);
+            return novoComentario;
+        }
+        return null;
+    }
+
+    /*
+    public Comentario addResposta(Campanha campanha, int idComentario, Resposta resposta, String email) {
+        Campanha campanhaSalva = recuperaCampanha(campanha);
+        Usuario usuarioSalvo = recuperaUsuario(email);
+        Comentario comentarioSalvo = recuperaComentario(campanhaSalva);
+
+        if (campanhaSalva != null && usuarioSalvo != null) {
+            Resposta novaResposta = new Resposta()
+            Comentario comentarioComNovaResposta = campanhaSalva.addResposta(idComentario, usuarioSalvo, resposta);
+            return comentarioComNovaResposta;
+        }
+        return null;
+    }
+    */
+
+    private Campanha recuperaCampanha(Campanha campanha) {
+        Optional<Campanha> campanhaSalva = this.campanhasDAO.findById(campanha.getId());
+        if (campanhaSalva.isPresent()) {
+            return campanhaSalva.get();
+        }
+        return null;
+    }
+
+    private Campanha recuperaCampanha(Long id) {
+        Optional<Campanha> campanhaSalva =  this.campanhasDAO.findById(id);
+        if (campanhaSalva.isPresent()) {
+            return campanhaSalva.get();
+        }
+        return null;
+    }
+
+    private Usuario recuperaUsuario(String email) {
+        Optional<Usuario> usuarioSalvo =  usuarioServices.getUsuario(email);
+        if (usuarioSalvo.isPresent()) {
+            return usuarioSalvo.get();
+        }
+        return null;
+    }
+
 }
