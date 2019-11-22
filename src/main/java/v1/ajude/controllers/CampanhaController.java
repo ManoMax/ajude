@@ -6,6 +6,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import v1.ajude.models.Campanha;
 import v1.ajude.models.Comentario;
+import v1.ajude.models.Resposta;
 import v1.ajude.services.CampanhaServices;
 import v1.ajude.services.JWTService;
 
@@ -65,6 +66,42 @@ public class CampanhaController {
                 Optional<Campanha> campanha = campanhaServices.getCampanha(id);
                 if (campanha.isPresent()) {
                     return new ResponseEntity<Campanha>(campanhaServices.setStatus(campanha.get()), HttpStatus.OK);
+                } else {
+                    return new ResponseEntity<Campanha>(HttpStatus.NOT_FOUND);
+                }
+            }
+        }catch(ServletException e){
+            return new ResponseEntity<Campanha>(HttpStatus.FORBIDDEN);
+        }
+        return new ResponseEntity<Campanha>(HttpStatus.UNAUTHORIZED);
+    }
+
+    @PostMapping("{idCampanha}/comentario")
+    public ResponseEntity<Campanha> addComentario(@PathVariable Long idCampanha, @RequestBody Comentario comentario, @RequestHeader("Authorization") String header) {
+        try {
+            if(jwtService.usuarioExiste(header)) {
+                Optional<Campanha> campanha = campanhaServices.getCampanha(idCampanha);
+                if (campanha.isPresent()) {
+                    String email = jwtService.getSujeitoDoToken(header);
+                    return new ResponseEntity<Campanha>(campanhaServices.addComentario(campanha.get(), comentario, email), HttpStatus.OK);
+                } else {
+                    return new ResponseEntity<Campanha>(HttpStatus.NOT_FOUND);
+                }
+            }
+        }catch(ServletException e){
+            return new ResponseEntity<Campanha>(HttpStatus.FORBIDDEN);
+        }
+        return new ResponseEntity<Campanha>(HttpStatus.UNAUTHORIZED);
+    }
+
+    @PostMapping("{idCampanha}/comentario/{idComentario}")
+    public ResponseEntity<Campanha> addResposta(@PathVariable Long idCampanha, @PathVariable Long idComentario, @RequestBody Resposta resposta, @RequestHeader("Authorization") String header) {
+        try {
+            if(jwtService.usuarioExiste(header)) {
+                Optional<Campanha> campanha = campanhaServices.getCampanha(idCampanha);
+                if (campanha.isPresent()) {
+                    String email = jwtService.getSujeitoDoToken(header);
+                    return new ResponseEntity<Campanha>(campanhaServices.addResposta(campanha.get(), idComentario, resposta, email), HttpStatus.OK);
                 } else {
                     return new ResponseEntity<Campanha>(HttpStatus.NOT_FOUND);
                 }

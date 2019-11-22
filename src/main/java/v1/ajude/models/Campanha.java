@@ -7,6 +7,7 @@ import javax.persistence.*;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 public class Campanha {
@@ -23,12 +24,14 @@ public class Campanha {
     private String status; // (Ativo ou Desativo)
     private float meta; // (reais)
     private float doacoes;
+
     @ManyToOne
     @JoinColumn(name = "email")
     @JsonIgnore
     private Usuario dono;
+    @OneToMany
+    private List<Comentario> comentarios;
     /*
-    private ArrayList<ComentarioAbstract> comentarios;
     private ArrayList<Like> likes;
     */
 
@@ -46,8 +49,8 @@ public class Campanha {
         this.meta = meta;
         this.doacoes = 0;
         this.dono = dono;
+        this.comentarios = new ArrayList<Comentario>();
         /*
-        this.comentarios = new ArrayList<ComentarioAbstract>();
         this.likes = new ArrayList<Like>();
         */
     }
@@ -64,12 +67,9 @@ public class Campanha {
     public String getDescricao() {
         return this.descricao;
     }
-
-
     public LocalDate getDeadLine() {
         return this.deadLine;
     }
-
     @JsonIgnore
     public String getDeadLineString() {
         return this.deadLine.toString();
@@ -89,10 +89,10 @@ public class Campanha {
     public String getIdDono() {
         return this.dono.getEmail();
     }
-    /*
-    public ArrayList<ComentarioAbstract> getComentarios() {
+    public List<Comentario> getComentarios() {
         return this.comentarios;
     }
+    /*
     public ArrayList<Like> getLikes() {
         return this.likes;
     }
@@ -133,10 +133,17 @@ public class Campanha {
     public void setDono(Usuario dono) {
         this.dono = dono;
     }
-    /*
-    public void setComentarios(ArrayList<ComentarioAbstract> comentarios) {
-        this.comentarios = comentarios;
+
+    public Comentario getComentario(int idComentario) {
+        return this.comentarios.get(idComentario);
     }
+
+    public Campanha addComentario(Comentario comentario) {
+        this.comentarios.add(comentario);
+        return this;
+    }
+
+    /*
     public void setLikes(ArrayList<Like> likes) {
         this.likes = likes;
     }

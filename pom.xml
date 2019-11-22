@@ -70,7 +70,7 @@
 			<artifactId>tomcat-jdbc</artifactId>
 		</dependency>
 
-	</dependencies>
+    </dependencies>
 
 	<build>
 		<plugins>
