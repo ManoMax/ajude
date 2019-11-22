@@ -20,6 +20,7 @@ public class Campanha {
     private String status; // (Ativo ou Desativo)
     private float meta; // (reais)
     private float doacoes;
+
     @ManyToOne
     @JoinColumn(name = "email")
     @JsonIgnore
@@ -131,6 +132,11 @@ public class Campanha {
 
     public Comentario getComentario(int idComentario) {
         return this.comentarios.get(idComentario);
+    }
+
+    public Campanha addComentario(Comentario comentario) {
+        this.comentarios.add(comentario);
+        return this;
     }
 
     /*

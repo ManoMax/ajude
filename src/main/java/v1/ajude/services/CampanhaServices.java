@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import v1.ajude.daos.CampanhaRepository;
 import v1.ajude.daos.ComentarioRepository;
+import v1.ajude.daos.RespostaRepository;
 import v1.ajude.models.Campanha;
 import v1.ajude.models.Comentario;
 import v1.ajude.models.Resposta;
@@ -16,9 +17,10 @@ public class CampanhaServices {
 
     @Autowired
     private CampanhaRepository<Campanha, Integer> campanhasDAO;
-
     @Autowired
     private ComentarioRepository<Comentario, Integer> comentariosDAO;
+    @Autowired
+    private RespostaRepository<Resposta, Integer> respostasDAO;
 
     @Autowired
     private UsuarioServices usuarioServices;
@@ -62,32 +64,49 @@ public class CampanhaServices {
         return null;
     }
 
-    public Comentario addComentario(Campanha campanha, Comentario comentario, String email) {
+    public Campanha addComentario(Campanha campanha, Comentario comentario, String email) {
         Campanha campanhaSalva = recuperaCampanha(campanha);
         Usuario usuarioSalvo = recuperaUsuario(email);
 
         if (campanhaSalva != null && usuarioSalvo != null) {
+
+
             Comentario novoComentario = new Comentario(campanhaSalva, usuarioSalvo, comentario.getTextoComentario());
+            campanhaSalva.addComentario(novoComentario);
+
             comentariosDAO.save(novoComentario);
-            return novoComentario;
+            campanhasDAO.save(campanhaSalva);
+            return campanhaSalva;
         }
         return null;
     }
 
-    /*
-    public Comentario addResposta(Campanha campanha, int idComentario, Resposta resposta, String email) {
+    public Campanha addResposta(Campanha campanha, Long idComentario, Resposta resposta, String email) {
         Campanha campanhaSalva = recuperaCampanha(campanha);
         Usuario usuarioSalvo = recuperaUsuario(email);
-        Comentario comentarioSalvo = recuperaComentario(campanhaSalva);
+        Comentario comentarioSalvo = recuperaComentario(idComentario);
 
-        if (campanhaSalva != null && usuarioSalvo != null) {
-            Resposta novaResposta = new Resposta()
-            Comentario comentarioComNovaResposta = campanhaSalva.addResposta(idComentario, usuarioSalvo, resposta);
-            return comentarioComNovaResposta;
+        if (campanhaSalva != null && usuarioSalvo != null && comentarioSalvo != null) {
+
+            Resposta novaResposta = new Resposta(comentarioSalvo, usuarioSalvo, resposta.getTextoResposta());
+
+            comentarioSalvo.addResposta(usuarioSalvo, novaResposta);
+
+            respostasDAO.save(novaResposta);
+            comentariosDAO.save(comentarioSalvo);
+            campanhasDAO.save(campanhaSalva);
+            return campanhaSalva;
         }
         return null;
     }
-    */
+
+    private Comentario recuperaComentario(Long idComentario) {
+        Optional<Comentario> comentarioSalvo = this.comentariosDAO.findById(idComentario);
+        if (comentarioSalvo.isPresent()) {
+            return comentarioSalvo.get();
+        }
+        return null;
+    }
 
     private Campanha recuperaCampanha(Campanha campanha) {
         Optional<Campanha> campanhaSalva = this.campanhasDAO.findById(campanha.getId());

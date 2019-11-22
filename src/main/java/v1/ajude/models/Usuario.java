@@ -1,7 +1,12 @@
 package v1.ajude.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.Id;
 import javax.persistence.Entity;
+import javax.persistence.OneToMany;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 public class Usuario {
@@ -13,6 +18,13 @@ public class Usuario {
     private String numCartao;
     private String senha;
 
+    @OneToMany
+    private List<Campanha> campanhasCriadas;
+
+    @OneToMany
+    @JsonIgnore
+    private List<Comentario> comentarios;
+
     public Usuario() {
         super();
     }
@@ -23,6 +35,8 @@ public class Usuario {
         this.email = email;
         this.numCartao = numCartao;
         this.senha = senha;
+        this.campanhasCriadas = new ArrayList<Campanha>();
+        this.comentarios = new ArrayList<Comentario>();
     }
 
     public String getPrimeiroNome() {
@@ -40,6 +54,9 @@ public class Usuario {
     public String getSenha() {
         return this.senha;
     }
+    public List<Campanha> getCampanhasCriadas() {
+        return this.campanhasCriadas;
+    }
 
     public void setPrimeiroNome(String primeiroNome) {
         this.primeiroNome = primeiroNome;
@@ -55,5 +72,12 @@ public class Usuario {
     }
     public void setSenha(String senha) {
         this.senha = senha;
+    }
+    public void setCampanhasCriadas(Campanha campanha) {
+        this.campanhasCriadas.add(campanha);
+    }
+
+    public void setComentario(Comentario novoComentario) {
+        this.comentarios.add(novoComentario);
     }
 }

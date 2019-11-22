@@ -7,18 +7,18 @@ import javax.persistence.*;
 @Entity
 public class Resposta{
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private long idResposta;
+
     @ManyToOne
     @JoinColumn(name = "email")
-    @JsonIgnore
     private Usuario usuario;
 
     @JsonIgnore
     @ManyToOne
     private Comentario comentarioPai;
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long idResposta;
     private String textoResposta;
 
     public Resposta(){
@@ -34,8 +34,13 @@ public class Resposta{
         this.usuario = usuario;
     }
 
+    @JsonIgnore
     public long getIdResposta() {
         return this.idResposta;
+    }
+
+    public Usuario getUsuario() {
+        return this.usuario;
     }
 
     public String getTextoResposta() {
@@ -45,4 +50,6 @@ public class Resposta{
     public void setTextoResposta(String textoResposta) {
         this.textoResposta = textoResposta;
     }
+
+
 }

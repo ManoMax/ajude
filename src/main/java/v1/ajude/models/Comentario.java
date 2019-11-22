@@ -15,7 +15,7 @@ public class Comentario{
 
     @ManyToOne
     @JoinColumn(name = "email")
-    @JsonIgnore
+    @
     private Usuario usuario;
 
     @ManyToOne
@@ -50,6 +50,10 @@ public class Comentario{
         return this.textoComentario;
     }
 
+    public List<Resposta> getRespostas() {
+        return this.respostas;
+    }
+
     public void setUsuario(Usuario usuario) {
         this.usuario = usuario;
     }
@@ -59,7 +63,7 @@ public class Comentario{
     }
 
     public Comentario addResposta(Usuario usuario, Resposta resposta) {
-        respostas.add(new Resposta(this, usuario, resposta.getTextoResposta()));
+        respostas.add(resposta);
         return this;
     }
 
