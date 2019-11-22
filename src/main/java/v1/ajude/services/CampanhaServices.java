@@ -5,10 +5,7 @@ import org.springframework.stereotype.Service;
 import v1.ajude.daos.CampanhaRepository;
 import v1.ajude.daos.ComentarioRepository;
 import v1.ajude.daos.RespostaRepository;
-import v1.ajude.models.Campanha;
-import v1.ajude.models.Comentario;
-import v1.ajude.models.Resposta;
-import v1.ajude.models.Usuario;
+import v1.ajude.models.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -54,6 +51,14 @@ public class CampanhaServices {
         return null;
     }
 
+    public Optional<Campanha> getCampanha(String url) {
+        Optional<Campanha> campanha = campanhasDAO.findByURL(url);
+        if (campanha.isPresent()) {
+            return campanha;
+        }
+        return null;
+    }
+
     public Campanha setStatus(Campanha campanha) {
         Campanha campanhaSalva = recuperaCampanha(campanha);
 
@@ -66,7 +71,7 @@ public class CampanhaServices {
         return null;
     }
 
-    public Campanha addComentario(Campanha campanha, Comentario comentario, String email) {
+    public Comentario addComentario(Campanha campanha, Comentario comentario, String email) {
         Campanha campanhaSalva = recuperaCampanha(campanha);
         Usuario usuarioSalvo = recuperaUsuario(email);
 
@@ -78,12 +83,12 @@ public class CampanhaServices {
 
             comentariosDAO.save(novoComentario);
             campanhasDAO.save(campanhaSalva);
-            return campanhaSalva;
+            return novoComentario;
         }
         return null;
     }
 
-    public Campanha addResposta(Campanha campanha, Long idComentario, Resposta resposta, String email) {
+    public Comentario addResposta(Campanha campanha, Long idComentario, Resposta resposta, String email) {
         Campanha campanhaSalva = recuperaCampanha(campanha);
         Usuario usuarioSalvo = recuperaUsuario(email);
         Comentario comentarioSalvo = recuperaComentario(idComentario);
@@ -97,7 +102,7 @@ public class CampanhaServices {
             respostasDAO.save(novaResposta);
             comentariosDAO.save(comentarioSalvo);
             campanhasDAO.save(campanhaSalva);
-            return campanhaSalva;
+            return comentarioSalvo;
         }
         return null;
     }
@@ -134,16 +139,8 @@ public class CampanhaServices {
         return null;
     }
 
-    public Campanha getCampanhaUrl(String url) {
-        List<Campanha> campanhas = campanhasDAO.findAll();
-
-        for (Campanha campanha : campanhas) {
-            if (campanha.getURL().equals("/" + url)) {
-                return campanha;
-            }
-        }
-
-        return null;
+    private UsuarioDTO recuperaUsuarioDTO(String email) {
+        return usuarioServices.getUsuarioDTO(email);
     }
 
     public List<Campanha> getCampanhas(String subString) {

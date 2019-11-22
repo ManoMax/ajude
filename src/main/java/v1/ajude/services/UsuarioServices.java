@@ -4,8 +4,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import v1.ajude.daos.UsuariosRepository;
 import v1.ajude.models.Usuario;
+import v1.ajude.models.UsuarioDTO;
 
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -19,20 +22,42 @@ public class UsuarioServices {
         this.usuariosDAO = usuariosDAO;
     }
 
-    public Usuario addUsuario(Usuario usuario) {
+    public UsuarioDTO addUsuario(Usuario usuario) {
         Optional<Usuario> searchUser = this.usuariosDAO.findByEmail(usuario.getEmail());
         if (!searchUser.isPresent()) {
-            return usuariosDAO.save(usuario);
+            Usuario u = usuariosDAO.save(usuario);
+            UsuarioDTO usuarioDTO = new UsuarioDTO(u.getPrimeiroNome(), u.getUltimoNome(), u.getEmail());
+            return usuarioDTO;
         }
         return null;
     }
 
     public Optional<Usuario> getUsuario(String email) {
-        return this.usuariosDAO.findByEmail(email);
+        Optional<Usuario> usuario = usuariosDAO.findByEmail(email);
+        if (usuario.isPresent()) {
+            return usuario;
+        }
+        return null;
     }
 
-    public Collection<Usuario> getUsuarios() {
-        return usuariosDAO.findAll();
+    public UsuarioDTO getUsuarioDTO(String email) {
+        Optional<Usuario> usuario = usuariosDAO.findByEmail(email);
+        if (usuario.isPresent()) {
+            Usuario u = usuario.get();
+            UsuarioDTO usuarioDTO = new UsuarioDTO(u.getPrimeiroNome(), u.getPrimeiroNome(), u.getEmail());
+            return usuarioDTO;
+        }
+        return null;
+    }
+
+    public Collection<UsuarioDTO> getUsuarios() {
+        List<Usuario> usuarios = usuariosDAO.findAll();
+        List<UsuarioDTO> usuariosDTO = new ArrayList<UsuarioDTO>();
+        for (Usuario usuario : usuarios) {
+            UsuarioDTO usuarioDTO = new UsuarioDTO(usuario.getPrimeiroNome(), usuario.getUltimoNome(), usuario.getEmail());
+            usuariosDTO.add(usuarioDTO);
+        }
+        return usuariosDTO;
     }
 
     public boolean exist(Usuario usuario) {
@@ -59,8 +84,9 @@ public class UsuarioServices {
     }
 
 
-    public Optional<Usuario> remove(String email) {
-        Optional<Usuario> user = getUsuario(email);
+    public UsuarioDTO remove(String email) {
+        UsuarioDTO user = getUsuarioDTO(email);
+
         usuariosDAO.deleteById(email);
         return user;
     }

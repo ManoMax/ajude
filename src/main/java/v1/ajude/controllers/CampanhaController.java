@@ -42,13 +42,13 @@ public class CampanhaController {
         return new ResponseEntity<Campanha>(HttpStatus.UNAUTHORIZED);
     }
 
-    @RequestMapping("/{url}")
-    public ResponseEntity<Campanha> getCampanha(@PathVariable String url, @RequestHeader("Authorization") String header) {
+    @RequestMapping("/{urlCampanha}")
+    public ResponseEntity<Campanha> getCampanha(@PathVariable String urlCampanha, @RequestHeader("Authorization") String header) {
         try {
             if (jwtService.usuarioExiste(header)) {
-                Campanha campanha = campanhaServices.getCampanhaUrl(url);
-                if (campanha != null) {
-                    return new ResponseEntity<Campanha>(campanha, HttpStatus.OK);
+                Optional<Campanha> campanha = campanhaServices.getCampanha(urlCampanha);
+                if (campanha.isPresent()) {
+                    return new ResponseEntity<Campanha>(campanha.get(), HttpStatus.OK);
                 }
                 return new ResponseEntity<Campanha>(HttpStatus.NOT_FOUND);
             }
@@ -59,11 +59,11 @@ public class CampanhaController {
 
     }
 
-    @RequestMapping("/{id}/status")
-    public ResponseEntity<Campanha> setStatus(@PathVariable Long id, @RequestHeader("Authorization") String header) {
+    @RequestMapping("/{urlCampanha}/status")
+    public ResponseEntity<Campanha> setStatus(@PathVariable String urlCampanha, @RequestHeader("Authorization") String header) {
         try {
             if(jwtService.usuarioExiste(header)) {
-                Optional<Campanha> campanha = campanhaServices.getCampanha(id);
+                Optional<Campanha> campanha = campanhaServices.getCampanha(urlCampanha);
                 if (campanha.isPresent()) {
                     return new ResponseEntity<Campanha>(campanhaServices.setStatus(campanha.get()), HttpStatus.OK);
                 } else {
@@ -76,40 +76,40 @@ public class CampanhaController {
         return new ResponseEntity<Campanha>(HttpStatus.UNAUTHORIZED);
     }
 
-    @PostMapping("{idCampanha}/comentario")
-    public ResponseEntity<Campanha> addComentario(@PathVariable Long idCampanha, @RequestBody Comentario comentario, @RequestHeader("Authorization") String header) {
+    @PostMapping("/{urlCampanha}/comentario")
+    public ResponseEntity<Comentario> addComentario(@PathVariable String urlCampanha, @RequestBody Comentario comentario, @RequestHeader("Authorization") String header) {
         try {
             if(jwtService.usuarioExiste(header)) {
-                Optional<Campanha> campanha = campanhaServices.getCampanha(idCampanha);
+                Optional<Campanha> campanha = campanhaServices.getCampanha(urlCampanha);
                 if (campanha.isPresent()) {
                     String email = jwtService.getSujeitoDoToken(header);
-                    return new ResponseEntity<Campanha>(campanhaServices.addComentario(campanha.get(), comentario, email), HttpStatus.OK);
+                    return new ResponseEntity<Comentario>(campanhaServices.addComentario(campanha.get(), comentario, email), HttpStatus.OK);
                 } else {
-                    return new ResponseEntity<Campanha>(HttpStatus.NOT_FOUND);
+                    return new ResponseEntity<Comentario>(HttpStatus.NOT_FOUND);
                 }
             }
         }catch(ServletException e){
-            return new ResponseEntity<Campanha>(HttpStatus.FORBIDDEN);
+            return new ResponseEntity<Comentario>(HttpStatus.FORBIDDEN);
         }
-        return new ResponseEntity<Campanha>(HttpStatus.UNAUTHORIZED);
+        return new ResponseEntity<Comentario>(HttpStatus.UNAUTHORIZED);
     }
 
-    @PostMapping("{idCampanha}/comentario/{idComentario}")
-    public ResponseEntity<Campanha> addResposta(@PathVariable Long idCampanha, @PathVariable Long idComentario, @RequestBody Resposta resposta, @RequestHeader("Authorization") String header) {
+    @PostMapping("/{urlCampanha}/comentario/{idComentario}")
+    public ResponseEntity<Comentario> addResposta(@PathVariable String urlCampanha, @PathVariable Long idComentario, @RequestBody Resposta resposta, @RequestHeader("Authorization") String header) {
         try {
             if(jwtService.usuarioExiste(header)) {
-                Optional<Campanha> campanha = campanhaServices.getCampanha(idCampanha);
+                Optional<Campanha> campanha = campanhaServices.getCampanha(urlCampanha);
                 if (campanha.isPresent()) {
                     String email = jwtService.getSujeitoDoToken(header);
-                    return new ResponseEntity<Campanha>(campanhaServices.addResposta(campanha.get(), idComentario, resposta, email), HttpStatus.OK);
+                    return new ResponseEntity<Comentario>(campanhaServices.addResposta(campanha.get(), idComentario, resposta, email), HttpStatus.OK);
                 } else {
-                    return new ResponseEntity<Campanha>(HttpStatus.NOT_FOUND);
+                    return new ResponseEntity<Comentario>(HttpStatus.NOT_FOUND);
                 }
             }
         }catch(ServletException e){
-            return new ResponseEntity<Campanha>(HttpStatus.FORBIDDEN);
+            return new ResponseEntity<Comentario>(HttpStatus.FORBIDDEN);
         }
-        return new ResponseEntity<Campanha>(HttpStatus.UNAUTHORIZED);
+        return new ResponseEntity<Comentario>(HttpStatus.UNAUTHORIZED);
     }
 
     @GetMapping("/busca/{substring}")

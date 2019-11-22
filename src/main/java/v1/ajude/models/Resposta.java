@@ -13,6 +13,7 @@ public class Resposta{
 
     @ManyToOne
     @JoinColumn(name = "email")
+    @JsonIgnore
     private Usuario usuario;
 
     @JsonIgnore
@@ -41,6 +42,12 @@ public class Resposta{
 
     public Usuario getUsuario() {
         return this.usuario;
+    }
+
+    public UsuarioDTO getDonoResposta() {
+        Usuario usuario = this.usuario;
+        UsuarioDTO usuarioDTO = new UsuarioDTO(usuario.getPrimeiroNome(), usuario.getUltimoNome(), usuario.getEmail());
+        return usuarioDTO;
     }
 
     public String getTextoResposta() {

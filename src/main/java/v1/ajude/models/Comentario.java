@@ -15,6 +15,7 @@ public class Comentario{
 
     @ManyToOne
     @JoinColumn(name = "email")
+    @JsonIgnore
     private Usuario usuario;
 
     @ManyToOne
@@ -43,6 +44,12 @@ public class Comentario{
 
     public Usuario getUsuario() {
         return this.usuario;
+    }
+
+    public UsuarioDTO getDonoComentario() {
+        Usuario usuario = this.usuario;
+        UsuarioDTO usuarioDTO = new UsuarioDTO(usuario.getPrimeiroNome(), usuario.getUltimoNome(), usuario.getEmail());
+        return  usuarioDTO;
     }
 
     public String getTextoComentario() {

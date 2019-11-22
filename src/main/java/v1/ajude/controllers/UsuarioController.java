@@ -1,6 +1,7 @@
 package v1.ajude.controllers;
 
 import v1.ajude.models.Usuario;
+import v1.ajude.models.UsuarioDTO;
 import v1.ajude.services.JWTService;
 import v1.ajude.services.UsuarioServices;
 
@@ -28,33 +29,34 @@ public class UsuarioController {
     }
 
     @PostMapping("")
-    public ResponseEntity<Usuario> addUsuario(@RequestBody Usuario usuario) {
-        return new ResponseEntity<Usuario>(usuarioServices.addUsuario(usuario), HttpStatus.OK);
+    public ResponseEntity<UsuarioDTO> addUsuario(@RequestBody Usuario usuario) {
+        return new ResponseEntity<UsuarioDTO>(usuarioServices.addUsuario(usuario), HttpStatus.OK);
     }
 
     @GetMapping("/{email}")
-    public ResponseEntity<Usuario> getUsuario(@PathVariable String email) {
-        return new ResponseEntity<Usuario>(usuarioServices.getUsuario(email).get(), HttpStatus.OK);
+    public ResponseEntity<UsuarioDTO> getUsuario(@PathVariable String email) {
+
+        return new ResponseEntity<UsuarioDTO>(usuarioServices.getUsuarioDTO(email), HttpStatus.OK);
     }
 
     @RequestMapping("/list")
-    public ResponseEntity<Collection<Usuario>>  getUsuarios(){
-        return  new ResponseEntity<Collection<Usuario>>(usuarioServices.getUsuarios(),HttpStatus.OK);
+    public ResponseEntity<Collection<UsuarioDTO>>  getUsuarios(){
+        return  new ResponseEntity<Collection<UsuarioDTO>>(usuarioServices.getUsuarios(),HttpStatus.OK);
     }
 
     @DeleteMapping("/delete")
-    public ResponseEntity<Usuario> deleteUsuario(@RequestHeader ("Authorization") String header) {
+    public ResponseEntity<UsuarioDTO> deleteUsuario(@RequestHeader ("Authorization") String header) {
 
         try {
             String email = jwtService.getSujeitoDoToken(header);
             // System.out.println(email);
             if(jwtService.usuarioExiste(header)) {
-                return new ResponseEntity<Usuario>(usuarioServices.remove(email).get(), HttpStatus.OK);
+                return new ResponseEntity<UsuarioDTO>(usuarioServices.remove(email), HttpStatus.OK);
             }
         }catch(ServletException e){
-            return new ResponseEntity<Usuario>(HttpStatus.FORBIDDEN);
+            return new ResponseEntity<UsuarioDTO>(HttpStatus.FORBIDDEN);
         }
 
-        return new ResponseEntity<Usuario>(HttpStatus.UNAUTHORIZED);
+        return new ResponseEntity<UsuarioDTO>(HttpStatus.UNAUTHORIZED);
     }
 }
