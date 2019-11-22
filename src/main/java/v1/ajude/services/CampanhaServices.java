@@ -5,6 +5,8 @@ import org.springframework.stereotype.Service;
 import v1.ajude.daos.CampanhaRepository;
 import v1.ajude.models.Campanha;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -46,5 +48,19 @@ public class CampanhaServices {
         // Atualiza Campanha, sem encerrar
         campanhasDAO.findById(id).get().setStatus(false);
         return campanhasDAO.findById(id);
+    }
+
+    public List<Campanha> getCampanhas(String subString) {
+        List<Campanha> result = new ArrayList<>();
+        List<Campanha> campanhas = campanhasDAO.findAll();
+
+        for (Campanha campanha : campanhas) {
+            if (campanha.getNomeCurto().contains(subString)) {
+                result.add(campanha);
+            }
+        }
+
+        return result;
+
     }
 }

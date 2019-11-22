@@ -10,6 +10,7 @@ import v1.ajude.services.CampanhaServices;
 import v1.ajude.services.JWTService;
 
 import javax.servlet.ServletException;
+import java.util.List;
 import java.util.Optional;
 
 @RestController
@@ -65,5 +66,9 @@ public class CampanhaController {
         return new ResponseEntity<Campanha>(HttpStatus.UNAUTHORIZED);
     }
 
+    @GetMapping("/busca/{substring}")
+    public ResponseEntity<List<Campanha>> getCampanhasPorSubString(@PathVariable String substring) {
+        return new ResponseEntity<List<Campanha>>(campanhaServices.getCampanhas(substring), HttpStatus.OK);
+    }
 
 }
