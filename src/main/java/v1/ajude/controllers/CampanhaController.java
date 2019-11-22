@@ -11,6 +11,7 @@ import v1.ajude.services.CampanhaServices;
 import v1.ajude.services.JWTService;
 
 import javax.servlet.ServletException;
+import java.util.List;
 import java.util.Optional;
 
 @RestController
@@ -41,12 +42,21 @@ public class CampanhaController {
         return new ResponseEntity<Campanha>(HttpStatus.UNAUTHORIZED);
     }
 
-    @RequestMapping("/{id}")
-    public ResponseEntity<Campanha> getCampanha(@PathVariable Long id) {
-        Optional<Campanha> campanha = campanhaServices.getCampanha(id);
-        if (campanha.isPresent())
-            return new ResponseEntity<Campanha>(campanha.get(), HttpStatus.OK);
-        return new ResponseEntity<Campanha>(HttpStatus.NOT_FOUND);
+    @RequestMapping("/{url}")
+    public ResponseEntity<Campanha> getCampanha(@PathVariable String url, @RequestHeader("Authorization") String header) {
+        try {
+            if (jwtService.usuarioExiste(header)) {
+                Campanha campanha = campanhaServices.getCampanhaUrl(url);
+                if (campanha != null) {
+                    return new ResponseEntity<Campanha>(campanha, HttpStatus.OK);
+                }
+                return new ResponseEntity<Campanha>(HttpStatus.NOT_FOUND);
+            }
+        } catch (ServletException e) {
+            return new ResponseEntity<Campanha>(HttpStatus.FORBIDDEN);
+        }
+        return new ResponseEntity<Campanha>(HttpStatus.UNAUTHORIZED);
+
     }
 
     @RequestMapping("/{id}/status")
@@ -100,6 +110,11 @@ public class CampanhaController {
             return new ResponseEntity<Campanha>(HttpStatus.FORBIDDEN);
         }
         return new ResponseEntity<Campanha>(HttpStatus.UNAUTHORIZED);
+    }
+
+    @GetMapping("/busca/{substring}")
+    public ResponseEntity<List<Campanha>> getCampanhasPorSubString(@PathVariable String substring) {
+        return new ResponseEntity<List<Campanha>>(campanhaServices.getCampanhas(substring), HttpStatus.OK);
     }
 
 }

@@ -1,9 +1,11 @@
 package v1.ajude.models;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -16,6 +18,8 @@ public class Campanha {
     private String nomeCurto;
     private String URL; // identificador de URL único da campanha (gerado pelo frontend a partir do nome curto),
     private String descricao;
+
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
     private LocalDate deadLine; // (término)
     private String status; // (Ativo ou Desativo)
     private float meta; // (reais)
@@ -63,11 +67,11 @@ public class Campanha {
     public String getDescricao() {
         return this.descricao;
     }
-    @JsonIgnore
-    public LocalDate getDeadLineData() {
+    public LocalDate getDeadLine() {
         return this.deadLine;
     }
-    public String getDeadLine() {
+    @JsonIgnore
+    public String getDeadLineString() {
         return this.deadLine.toString();
     }
     public String getStatus() {

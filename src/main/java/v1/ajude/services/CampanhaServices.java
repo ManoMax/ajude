@@ -10,6 +10,8 @@ import v1.ajude.models.Comentario;
 import v1.ajude.models.Resposta;
 import v1.ajude.models.Usuario;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -34,7 +36,7 @@ public class CampanhaServices {
 
         if (campanhaSalva == null) {
             Campanha campanhaConstruct = new Campanha(campanha.getNomeCurto(), campanha.getDescricao(),
-                    campanha.getDeadLine(), campanha.getURL(), campanha.getMeta(), usuarioServices.getUsuario(email).get());
+                    campanha.getDeadLineString(), campanha.getURL(), campanha.getMeta(), usuarioServices.getUsuario(email).get());
             return campanhasDAO.save(campanhaConstruct);
         }
         return null;
@@ -132,4 +134,29 @@ public class CampanhaServices {
         return null;
     }
 
+    public Campanha getCampanhaUrl(String url) {
+        List<Campanha> campanhas = campanhasDAO.findAll();
+
+        for (Campanha campanha : campanhas) {
+            if (campanha.getURL().equals("/" + url)) {
+                return campanha;
+            }
+        }
+
+        return null;
+    }
+
+    public List<Campanha> getCampanhas(String subString) {
+        List<Campanha> result = new ArrayList<>();
+        List<Campanha> campanhas = campanhasDAO.findAll();
+
+        for (Campanha campanha : campanhas) {
+            if (campanha.getNomeCurto().contains(subString)) {
+                result.add(campanha);
+            }
+        }
+
+        return result;
+
+    }
 }
