@@ -50,6 +50,18 @@ public class CampanhaServices {
         return campanhasDAO.findById(id);
     }
 
+    public Campanha getCampanhaUrl(String url) {
+        List<Campanha> campanhas = campanhasDAO.findAll();
+
+        for (Campanha campanha : campanhas) {
+            if (campanha.getURL().equals("/" + url)) {
+                return campanha;
+            }
+        }
+
+        return null;
+    }
+
     public List<Campanha> getCampanhas(String subString) {
         List<Campanha> result = new ArrayList<>();
         List<Campanha> campanhas = campanhasDAO.findAll();
