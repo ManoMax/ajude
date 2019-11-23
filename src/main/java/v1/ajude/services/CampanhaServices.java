@@ -42,18 +42,6 @@ public class CampanhaServices {
         return null;
     }
 
-    public Optional<Campanha> getCampanha(Long id) {
-        Campanha campanhaSalva = recuperaCampanha(id);
-
-        if (campanhaSalva != null) {
-            // Atualiza Status Campanha, sem encerrar
-            campanhaSalva.setStatus(false);
-            campanhasDAO.save(campanhaSalva);
-            return campanhasDAO.findById(id);
-        }
-        return null;
-    }
-
     public Optional<Campanha> getCampanha(String url) {
         Optional<Campanha> campanha = campanhasDAO.findByURL(url);
         if (campanha.isPresent()) {
@@ -69,18 +57,17 @@ public class CampanhaServices {
         List<Campanha> campanhas = campanhasDAO.findAll();
 
         for (Campanha campanha : campanhas) {
-            if (campanha.getNomeCurto().contains(subString)) {
+            if (campanha.getNomeCurto().toUpperCase().contains(subString.toUpperCase())) {
                 result.add(campanha);
             }
         }
         return result;
     }
 
-    public Campanha setStatus(Campanha campanha) {
+    public Campanha encerraCampanha(Campanha campanha) {
         Campanha campanhaSalva = recuperaCampanha(campanha);
 
         if (campanhaSalva != null) {
-            // Encerra Campanha
             campanhaSalva.setStatus(true);
             campanhasDAO.save(campanhaSalva);
             return campanhaSalva;
@@ -172,9 +159,6 @@ public class CampanhaServices {
             return usuarioSalvo.get();
         }
         return null;
-    }
-    private UsuarioDTO recuperaUsuarioDTO(String email) {
-        return usuarioServices.getUsuarioDTO(email);
     }
     private Comentario recuperaComentario(Long idComentario) {
         Optional<Comentario> comentarioSalvo = this.comentariosDAO.findById(idComentario);

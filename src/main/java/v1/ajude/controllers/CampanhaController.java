@@ -60,12 +60,12 @@ public class CampanhaController {
     }
 
     @RequestMapping("/{urlCampanha}/status")
-    public ResponseEntity<Campanha> setStatus(@PathVariable String urlCampanha, @RequestHeader("Authorization") String header) {
+    public ResponseEntity<Campanha> encerraCampanha(@PathVariable String urlCampanha, @RequestHeader("Authorization") String header) {
         try {
             if(jwtService.usuarioExiste(header)) {
                 Optional<Campanha> campanha = campanhaServices.getCampanha(urlCampanha);
                 if (campanha.isPresent()) {
-                    return new ResponseEntity<Campanha>(campanhaServices.setStatus(campanha.get()), HttpStatus.OK);
+                    return new ResponseEntity<Campanha>(campanhaServices.encerraCampanha(campanha.get()), HttpStatus.OK);
                 } else {
                     return new ResponseEntity<Campanha>(HttpStatus.NOT_FOUND);
                 }
