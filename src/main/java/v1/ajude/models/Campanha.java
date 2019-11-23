@@ -14,7 +14,9 @@ public class Campanha {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long numId;
+    @Column(unique = true)
     private String nomeCurto;
+    @Column(unique = true)
     private String URL; // identificador de URL único da campanha (gerado pelo frontend a partir do nome curto),
     private String descricao;
 
