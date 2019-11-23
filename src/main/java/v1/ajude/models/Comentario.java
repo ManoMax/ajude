@@ -49,7 +49,7 @@ public class Comentario{
     public UsuarioDTO getDonoComentario() {
         Usuario usuario = this.usuario;
         UsuarioDTO usuarioDTO = new UsuarioDTO(usuario.getPrimeiroNome(), usuario.getUltimoNome(), usuario.getEmail());
-        return  usuarioDTO;
+        return usuarioDTO;
     }
 
     public String getTextoComentario() {

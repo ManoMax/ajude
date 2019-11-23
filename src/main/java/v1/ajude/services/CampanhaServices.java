@@ -1,9 +1,11 @@
 package v1.ajude.services;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.jpa.repository.support.SimpleJpaRepository;
 import org.springframework.stereotype.Service;
 import v1.ajude.daos.CampanhaRepository;
 import v1.ajude.daos.ComentarioRepository;
+import v1.ajude.daos.LikeRepository;
 import v1.ajude.daos.RespostaRepository;
 import v1.ajude.models.*;
 
@@ -20,6 +22,8 @@ public class CampanhaServices {
     private ComentarioRepository<Comentario, Integer> comentariosDAO;
     @Autowired
     private RespostaRepository<Resposta, Integer> respostasDAO;
+    @Autowired
+    private LikeRepository<Like, Integer> likesDAO;
 
     @Autowired
     private UsuarioServices usuarioServices;
@@ -59,6 +63,18 @@ public class CampanhaServices {
         return null;
     }
 
+    public List<Campanha> getCampanhas(String subString) {
+        List<Campanha> result = new ArrayList<>();
+        List<Campanha> campanhas = campanhasDAO.findAll();
+
+        for (Campanha campanha : campanhas) {
+            if (campanha.getNomeCurto().contains(subString)) {
+                result.add(campanha);
+            }
+        }
+        return result;
+    }
+
     public Campanha setStatus(Campanha campanha) {
         Campanha campanhaSalva = recuperaCampanha(campanha);
 
@@ -76,8 +92,7 @@ public class CampanhaServices {
         Usuario usuarioSalvo = recuperaUsuario(email);
 
         if (campanhaSalva != null && usuarioSalvo != null) {
-
-
+            
             Comentario novoComentario = new Comentario(campanhaSalva, usuarioSalvo, comentario.getTextoComentario());
             campanhaSalva.addComentario(novoComentario);
 
@@ -107,10 +122,37 @@ public class CampanhaServices {
         return null;
     }
 
-    private Comentario recuperaComentario(Long idComentario) {
-        Optional<Comentario> comentarioSalvo = this.comentariosDAO.findById(idComentario);
-        if (comentarioSalvo.isPresent()) {
-            return comentarioSalvo.get();
+    public Campanha addLike(Campanha campanha, String email) {
+        Campanha campanhaSalva = recuperaCampanha(campanha);
+        Usuario usuarioSalvo = recuperaUsuario(email);
+        // Like likeSalvo = recuperaLike(campanhaSalva, usuarioSalvo);
+        // Like thatLike = null;
+
+        if (campanhaSalva != null && usuarioSalvo != null) {
+            Like thatLike = new Like();
+            thatLike.setLikeUsuario(usuarioSalvo);
+            thatLike.setCampanha(campanhaSalva);
+            thatLike.setLikeMode(true);
+            /*
+            if (likeSalvo != null) {
+                thatLike = likeSalvo;
+
+                if (likeSalvo.getLikeMode()) {
+                    likeSalvo.setLikeMode(false);
+                } else {
+                    likeSalvo.setLikeMode(true);
+                }
+
+            } else {
+                thatLike = new Like(usuarioSalvo, true, campanhaSalva);
+            }
+            */
+
+            campanhaSalva.setContLike(thatLike);
+            // campanhaSalva.addLike(thatLike);
+            likesDAO.save(thatLike);
+            campanhasDAO.save(campanhaSalva);
+            return campanhaSalva;
         }
         return null;
     }
@@ -122,7 +164,6 @@ public class CampanhaServices {
         }
         return null;
     }
-
     private Campanha recuperaCampanha(Long id) {
         Optional<Campanha> campanhaSalva =  this.campanhasDAO.findById(id);
         if (campanhaSalva.isPresent()) {
@@ -130,7 +171,6 @@ public class CampanhaServices {
         }
         return null;
     }
-
     private Usuario recuperaUsuario(String email) {
         Optional<Usuario> usuarioSalvo =  usuarioServices.getUsuario(email);
         if (usuarioSalvo.isPresent()) {
@@ -138,22 +178,23 @@ public class CampanhaServices {
         }
         return null;
     }
-
     private UsuarioDTO recuperaUsuarioDTO(String email) {
         return usuarioServices.getUsuarioDTO(email);
     }
-
-    public List<Campanha> getCampanhas(String subString) {
-        List<Campanha> result = new ArrayList<>();
-        List<Campanha> campanhas = campanhasDAO.findAll();
-
-        for (Campanha campanha : campanhas) {
-            if (campanha.getNomeCurto().contains(subString)) {
-                result.add(campanha);
-            }
+    private Comentario recuperaComentario(Long idComentario) {
+        Optional<Comentario> comentarioSalvo = this.comentariosDAO.findById(idComentario);
+        if (comentarioSalvo.isPresent()) {
+            return comentarioSalvo.get();
         }
-
-        return result;
-
+        return null;
     }
+    /*
+    private Like recuperaLike(Campanha campanha, Usuario usuario) {
+        Optional<Like> like = this.likesDAO.findByCampanha(campanha.getId());
+        if (like.get().getLikeUsuario().equals(usuario)) {
+            return like.get();
+        }
+        return null;
+    }
+    */
 }

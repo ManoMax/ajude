@@ -6,6 +6,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import v1.ajude.models.Campanha;
 import v1.ajude.models.Comentario;
+import v1.ajude.models.Like;
 import v1.ajude.models.Resposta;
 import v1.ajude.services.CampanhaServices;
 import v1.ajude.services.JWTService;
@@ -43,7 +44,7 @@ public class CampanhaController {
     }
 
     @RequestMapping("/{urlCampanha}")
-    public ResponseEntity<Campanha> getCampanha(@PathVariable String urlCampanha, @RequestHeader("Authorization") String header) {
+    public ResponseEntity<Campanha> getCampanha(@PathVariable("urlCampanha") String urlCampanha, @RequestHeader("Authorization") String header) {
         try {
             if (jwtService.usuarioExiste(header)) {
                 Optional<Campanha> campanha = campanhaServices.getCampanha(urlCampanha);
@@ -110,6 +111,24 @@ public class CampanhaController {
             return new ResponseEntity<Comentario>(HttpStatus.FORBIDDEN);
         }
         return new ResponseEntity<Comentario>(HttpStatus.UNAUTHORIZED);
+    }
+
+    @RequestMapping("/{urlCampanha}/like")
+    public ResponseEntity<Campanha> addLike(@PathVariable("urlCampanha") String urlCampanha, @RequestHeader("Authorization") String header) {
+        try {
+            if(jwtService.usuarioExiste(header)) {
+                Optional<Campanha> campanha = campanhaServices.getCampanha(urlCampanha);
+                if (campanha.isPresent()) {
+                    String email = jwtService.getSujeitoDoToken(header);
+                    return new ResponseEntity<Campanha>(campanhaServices.addLike(campanha.get(), email), HttpStatus.OK);
+                } else {
+                    return new ResponseEntity<Campanha>(HttpStatus.NOT_FOUND);
+                }
+            }
+        }catch(ServletException e){
+            return new ResponseEntity<Campanha>(HttpStatus.FORBIDDEN);
+        }
+        return new ResponseEntity<Campanha>(HttpStatus.UNAUTHORIZED);
     }
 
     @GetMapping("/busca/{substring}")
