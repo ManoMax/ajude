@@ -32,7 +32,7 @@ public class Campanha {
     private List<Comentario> comentarios;
     @OneToMany
     @JsonIgnore
-    private List<Like> likes;
+    private List<Likes> likes;
     private int contLike;
 
     public Campanha() {
@@ -50,7 +50,7 @@ public class Campanha {
         this.doacoes = 0;
         this.dono = dono;
         this.comentarios = new ArrayList<Comentario>();
-        this.likes = new ArrayList<Like>();
+        this.likes = new ArrayList<Likes>();
         this.contLike = 0;
     }
 
@@ -96,7 +96,7 @@ public class Campanha {
         return this.comentarios.get(idComentario);
     }
 
-    public List<Like> getLikes() {
+    public List<Likes> getLikes() {
         return this.likes;
     }
 
@@ -146,12 +146,8 @@ public class Campanha {
         return this;
     }
 
-    public void addLike(Like like) {
-        this.likes.add(like);
-    }
-
-    public void setContLike(Like thatLike) {
-        if (thatLike.getLikeMode()) {
+    public void setContLike(Likes thatLikes) {
+        if (thatLikes.getLikeMode()) {
             this.contLike += 1;
         } else {
             this.contLike -= 1;

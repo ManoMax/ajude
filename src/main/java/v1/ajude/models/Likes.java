@@ -5,7 +5,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import javax.persistence.*;
 
 @Entity
-public class Like {
+public class Likes {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -19,15 +19,17 @@ public class Like {
     @JoinColumn(name = "idCampanhaLike")
     @JsonIgnore
     private Campanha campanha;
+    private String URL;
 
-    public Like() {
+    public Likes() {
 
     }
 
-    public Like(Usuario likeUsuario, boolean likeMode, Campanha campanha) {
+    public Likes(Usuario likeUsuario, boolean likeMode, Campanha campanha) {
         this.likeUsuario = likeUsuario;
         this.likeMode = likeMode;
         this.campanha = campanha;
+        this.URL = campanha.getURL();
     }
 
     public Usuario getLikeUsuario() {
@@ -43,6 +45,9 @@ public class Like {
     public long getIdLike() {
         return this.idLike;
     }
+    public String getURL() {
+        return this.URL;
+    }
 
     public void setLikeUsuario(Usuario likeUsuario) {
         this.likeUsuario = likeUsuario;
@@ -52,6 +57,9 @@ public class Like {
     }
     public void setCampanha(Campanha campanha) {
         this.campanha = campanha;
+    }
+    public void setURL(String URL) {
+        this.URL = URL;
     }
 
 }

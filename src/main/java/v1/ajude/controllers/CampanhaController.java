@@ -6,7 +6,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import v1.ajude.models.Campanha;
 import v1.ajude.models.Comentario;
-import v1.ajude.models.Like;
 import v1.ajude.models.Resposta;
 import v1.ajude.services.CampanhaServices;
 import v1.ajude.services.JWTService;

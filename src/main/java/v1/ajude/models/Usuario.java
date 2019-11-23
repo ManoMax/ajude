@@ -26,7 +26,7 @@ public class Usuario {
     private List<Comentario> comentarios;
     @OneToMany
     @JsonIgnore
-    private List<Like> likes;
+    private List<Likes> likes;
 
     public Usuario() {
         super();
@@ -40,7 +40,7 @@ public class Usuario {
         this.senha = senha;
         this.campanhasCriadas = new ArrayList<Campanha>();
         this.comentarios = new ArrayList<Comentario>();
-        this.likes = new ArrayList<Like>();
+        this.likes = new ArrayList<Likes>();
     }
 
     public String getPrimeiroNome() {
@@ -84,7 +84,7 @@ public class Usuario {
     public void setComentario(Comentario novoComentario) {
         this.comentarios.add(novoComentario);
     }
-    public void setLikes(Like like) {
-        this.likes.add(like);
+    public void setLikes(Likes likes) {
+        this.likes.add(likes);
     }
 }

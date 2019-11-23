@@ -1,11 +1,10 @@
 package v1.ajude.services;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.jpa.repository.support.SimpleJpaRepository;
 import org.springframework.stereotype.Service;
 import v1.ajude.daos.CampanhaRepository;
 import v1.ajude.daos.ComentarioRepository;
-import v1.ajude.daos.LikeRepository;
+import v1.ajude.daos.LikesRepository;
 import v1.ajude.daos.RespostaRepository;
 import v1.ajude.models.*;
 
@@ -23,7 +22,7 @@ public class CampanhaServices {
     @Autowired
     private RespostaRepository<Resposta, Integer> respostasDAO;
     @Autowired
-    private LikeRepository<Like, Integer> likesDAO;
+    private LikesRepository<Likes, Integer> likesDAO;
 
     @Autowired
     private UsuarioServices usuarioServices;
@@ -125,32 +124,26 @@ public class CampanhaServices {
     public Campanha addLike(Campanha campanha, String email) {
         Campanha campanhaSalva = recuperaCampanha(campanha);
         Usuario usuarioSalvo = recuperaUsuario(email);
-        // Like likeSalvo = recuperaLike(campanhaSalva, usuarioSalvo);
-        // Like thatLike = null;
+        Likes likeSalvo = recuperaLike(campanhaSalva, usuarioSalvo);
+        Likes thatLikes = null;
 
         if (campanhaSalva != null && usuarioSalvo != null) {
-            Like thatLike = new Like();
-            thatLike.setLikeUsuario(usuarioSalvo);
-            thatLike.setCampanha(campanhaSalva);
-            thatLike.setLikeMode(true);
-            /*
-            if (likeSalvo != null) {
-                thatLike = likeSalvo;
 
-                if (likeSalvo.getLikeMode()) {
-                    likeSalvo.setLikeMode(false);
+            if (likeSalvo != null) {
+                thatLikes = likeSalvo;
+
+                if (thatLikes.getLikeMode()) {
+                    thatLikes.setLikeMode(false);
                 } else {
-                    likeSalvo.setLikeMode(true);
+                    thatLikes.setLikeMode(true);
                 }
 
             } else {
-                thatLike = new Like(usuarioSalvo, true, campanhaSalva);
+                thatLikes = new Likes(usuarioSalvo, true, campanhaSalva);
             }
-            */
 
-            campanhaSalva.setContLike(thatLike);
-            // campanhaSalva.addLike(thatLike);
-            likesDAO.save(thatLike);
+            campanhaSalva.setContLike(thatLikes);
+            likesDAO.save(thatLikes);
             campanhasDAO.save(campanhaSalva);
             return campanhaSalva;
         }
@@ -188,13 +181,15 @@ public class CampanhaServices {
         }
         return null;
     }
-    /*
-    private Like recuperaLike(Campanha campanha, Usuario usuario) {
-        Optional<Like> like = this.likesDAO.findByCampanha(campanha.getId());
-        if (like.get().getLikeUsuario().equals(usuario)) {
-            return like.get();
+
+    private Likes recuperaLike(Campanha campanha, Usuario usuario) {
+        Optional<Likes> like = this.likesDAO.findByURL(campanha.getURL());
+        if (like.isPresent()) {
+            if (like.get().getLikeUsuario().equals(usuario)) {
+                return like.get();
+            }
         }
         return null;
     }
-    */
+
 }
