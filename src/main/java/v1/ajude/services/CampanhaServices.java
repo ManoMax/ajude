@@ -57,6 +57,8 @@ public class CampanhaServices {
     public Optional<Campanha> getCampanha(String url) {
         Optional<Campanha> campanha = campanhasDAO.findByURL(url);
         if (campanha.isPresent()) {
+            campanha.get().setStatus(false);
+            campanhasDAO.save(campanha.get());
             return campanha;
         }
         return null;
