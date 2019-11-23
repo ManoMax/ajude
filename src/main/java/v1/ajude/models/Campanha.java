@@ -86,7 +86,7 @@ public class Campanha {
     public Usuario getDono() {
         return this.dono;
     }
-    public UsuarioDTO getIdDono() {
+    public UsuarioDTO getInfoDono() {
         Usuario usuario = this.dono;
         UsuarioDTO usuarioDTO = new UsuarioDTO(usuario.getPrimeiroNome(), usuario.getUltimoNome(), usuario.getEmail());
         return usuarioDTO;
