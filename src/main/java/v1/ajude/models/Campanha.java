@@ -30,9 +30,10 @@ public class Campanha {
     private Usuario dono;
     @OneToMany
     private List<Comentario> comentarios;
-    /*
-    private ArrayList<Like> likes;
-    */
+    @OneToMany
+    @JsonIgnore
+    private List<Likes> likes;
+    private int contLike;
 
     public Campanha() {
         super();
@@ -49,9 +50,8 @@ public class Campanha {
         this.doacoes = 0;
         this.dono = dono;
         this.comentarios = new ArrayList<Comentario>();
-        /*
-        this.likes = new ArrayList<Like>();
-        */
+        this.likes = new ArrayList<Likes>();
+        this.contLike = 0;
     }
 
     public long getId() {
@@ -79,6 +79,7 @@ public class Campanha {
     public float getMeta() {
         return this.meta;
     }
+    // Criar classe Doacoes
     public float getDoacoes() {
         return this.doacoes;
     }
@@ -91,11 +92,17 @@ public class Campanha {
     public List<Comentario> getComentarios() {
         return this.comentarios;
     }
-    /*
-    public ArrayList<Like> getLikes() {
+    public Comentario getComentario(int idComentario) {
+        return this.comentarios.get(idComentario);
+    }
+
+    public List<Likes> getLikes() {
         return this.likes;
     }
-    */
+
+    public int getNumeroDeLikes() {
+        return this.contLike;
+    }
 
     public void setNomeCurto(String nomeCurto) {
         this.nomeCurto = nomeCurto;
@@ -126,6 +133,7 @@ public class Campanha {
     public void setMeta(float meta) {
         this.meta = meta;
     }
+    // Criar classe Doacoes
     public void setDoacoes(float doacoes) {
         this.doacoes = doacoes;
     }
@@ -133,18 +141,16 @@ public class Campanha {
         this.dono = dono;
     }
 
-    public Comentario getComentario(int idComentario) {
-        return this.comentarios.get(idComentario);
-    }
-
     public Campanha addComentario(Comentario comentario) {
         this.comentarios.add(comentario);
         return this;
     }
 
-    /*
-    public void setLikes(ArrayList<Like> likes) {
-        this.likes = likes;
+    public void setContLike(Likes thatLikes) {
+        if (thatLikes.getLikeMode()) {
+            this.contLike += 1;
+        } else {
+            this.contLike -= 1;
+        }
     }
-    */
 }
