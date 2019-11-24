@@ -1,14 +1,14 @@
 package v1.ajude.services;
 
-import jdk.internal.org.jline.reader.History;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import v1.ajude.comparator.ComparatorCampanhaData;
+import v1.ajude.comparator.ComparatorCampanhaLike;
+import v1.ajude.comparator.ComparatorCampanhaQuantia;
 import v1.ajude.daos.*;
 import v1.ajude.models.*;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 @Service
 public class CampanhaServices {
@@ -24,11 +24,18 @@ public class CampanhaServices {
     @Autowired
     private DoacaoRepository<Doacao, Integer> doacoesDAO;
 
+    private ComparatorCampanhaLike comparatorCampanhaLike;
+    private ComparatorCampanhaData comparatorCampanhaData;
+    private ComparatorCampanhaQuantia comparatorCampanhaQuantia;
+
     @Autowired
     private UsuarioServices usuarioServices;
 
     public CampanhaServices(CampanhaRepository<Campanha, Integer> campanhasDAO) {
         this.campanhasDAO = campanhasDAO;
+        this.comparatorCampanhaLike = new ComparatorCampanhaLike();
+        this.comparatorCampanhaData = new ComparatorCampanhaData();
+        this.comparatorCampanhaQuantia = new ComparatorCampanhaQuantia();
     }
 
     public Campanha criarCampanha(String email, Campanha campanha) {
@@ -196,5 +203,21 @@ public class CampanhaServices {
             return campanhaSalva;
         }
         return null;
+    }
+
+    public List<Campanha> getCampanhasLike() {
+        List<Campanha> listaCampanhas = this.campanhasDAO.findAll();
+        Collections.sort(listaCampanhas, comparatorCampanhaLike);
+        return listaCampanhas;
+    }
+    public List<Campanha> getCampanhasData() {
+        List<Campanha> listaCampanhas = this.campanhasDAO.findAll();
+        Collections.sort(listaCampanhas, comparatorCampanhaData);
+        return listaCampanhas;
+    }
+    public List<Campanha> getCampanhasQuantia() {
+        List<Campanha> listaCampanhas = this.campanhasDAO.findAll();
+        Collections.sort(listaCampanhas, comparatorCampanhaQuantia);
+        return listaCampanhas;
     }
 }

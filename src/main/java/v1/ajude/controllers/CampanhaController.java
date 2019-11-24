@@ -153,4 +153,18 @@ public class CampanhaController {
         }
         return new ResponseEntity<Campanha>(HttpStatus.UNAUTHORIZED);
     }
+
+    @GetMapping("/campanhasLike")
+    public ResponseEntity<List<Campanha>> getCampanhasLike() {
+        return new ResponseEntity<List<Campanha>>(this.campanhaServices.getCampanhasLike(), HttpStatus.OK);
+    }
+    @GetMapping("/campanhasData")
+    public ResponseEntity<List<Campanha>> getCampanhasData() {
+        return new ResponseEntity<List<Campanha>>(this.campanhaServices.getCampanhasData(), HttpStatus.OK);
+    }
+    @GetMapping("/campanhasQuantia")
+    public ResponseEntity<List<Campanha>> getCampanhasQuantia() {
+        return new ResponseEntity<List<Campanha>>(this.campanhaServices.getCampanhasQuantia(), HttpStatus.OK);
+    }
+
 }

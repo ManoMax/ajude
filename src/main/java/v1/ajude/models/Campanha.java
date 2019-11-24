@@ -140,7 +140,7 @@ public class Campanha {
     }
 
     public void setStatus(boolean encerramento) {
-        if (this.deadLine.isBefore(LocalDate.now())) {
+        if (this.deadLine.isAfter(LocalDate.now())) {
             if(this.doacoes >= this.meta) {
                 this.status = "Concluída";
             } else  {
