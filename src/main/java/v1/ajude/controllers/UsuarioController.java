@@ -35,7 +35,6 @@ public class UsuarioController {
 
     @GetMapping("/{email}")
     public ResponseEntity<UsuarioDTO> getUsuario(@PathVariable String email) {
-
         return new ResponseEntity<UsuarioDTO>(usuarioServices.getUsuarioDTO(email), HttpStatus.OK);
     }
 
@@ -46,17 +45,14 @@ public class UsuarioController {
 
     @DeleteMapping("/delete")
     public ResponseEntity<UsuarioDTO> deleteUsuario(@RequestHeader ("Authorization") String header) {
-
         try {
             String email = jwtService.getSujeitoDoToken(header);
-            // System.out.println(email);
             if(jwtService.usuarioExiste(header)) {
                 return new ResponseEntity<UsuarioDTO>(usuarioServices.remove(email), HttpStatus.OK);
             }
         }catch(ServletException e){
             return new ResponseEntity<UsuarioDTO>(HttpStatus.FORBIDDEN);
         }
-
         return new ResponseEntity<UsuarioDTO>(HttpStatus.UNAUTHORIZED);
     }
 }

@@ -27,13 +27,12 @@ public class Usuario {
     private List<Campanha> campanhasCriadas;
     @OneToMany
     @JsonIgnore
-    private List<Comentario> comentarios;
+    private List<Comentario> comentariosFeitos;
     @OneToMany
     @JsonIgnore
-    private List<Likes> likes;
-
+    private List<Likes> likesEmCampanhas;
     @OneToMany
-    private List<Doacao> doacoes;
+    private List<Doacao> doacoesFeitas;
 
     public Usuario() {
         super();
@@ -48,11 +47,17 @@ public class Usuario {
         this.numCartao = numCartao;
         this.senha = senha;
         this.campanhasCriadas = new ArrayList<Campanha>();
-        this.comentarios = new ArrayList<Comentario>();
-        this.likes = new ArrayList<Likes>();
-        this.doacoes = new ArrayList<Doacao>();
+        this.comentariosFeitos = new ArrayList<Comentario>();
+        this.likesEmCampanhas = new ArrayList<Likes>();
+        this.doacoesFeitas = new ArrayList<Doacao>();
     }
 
+    public String getUrlUser() {
+        return this.urlUser;
+    }
+    public String getNickName() {
+        return this.nickName;
+    }
     public String getPrimeiroNome() {
         return this.primeiroNome;
     }
@@ -68,18 +73,14 @@ public class Usuario {
     public String getSenha() {
         return this.senha;
     }
+
     public List<Campanha> getCampanhasCriadas() {
         return this.campanhasCriadas;
     }
-    public List<Doacao> getDoacoes() {
-        return this.doacoes;
+    public List<Doacao> getDoacoesFeitas() {
+        return this.doacoesFeitas;
     }
-    public String getUrlUser() {
-        return this.urlUser;
-    }
-    public String getNickName() {
-        return this.nickName;
-    }
+
 
     public void setPrimeiroNome(String primeiroNome) {
         this.primeiroNome = primeiroNome;
@@ -96,14 +97,14 @@ public class Usuario {
     public void setSenha(String senha) {
         this.senha = senha;
     }
+
     public void setCampanhasCriadas(Campanha campanha) {
         this.campanhasCriadas.add(campanha);
     }
-
     public void setComentario(Comentario novoComentario) {
-        this.comentarios.add(novoComentario);
+        this.comentariosFeitos.add(novoComentario);
     }
-    public void setLikes(Likes likes) {
-        this.likes.add(likes);
+    public void setLikesEmCampanhas(Likes likesEmCampanhas) {
+        this.likesEmCampanhas.add(likesEmCampanhas);
     }
 }

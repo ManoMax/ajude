@@ -12,6 +12,7 @@ public class Likes {
     private long idLike;
 
     @ManyToOne
+    @JoinColumn(name = "emailUser")
     @JsonIgnore
     private Usuario likeUsuario;
     private boolean likeMode;
@@ -19,17 +20,18 @@ public class Likes {
     @JoinColumn(name = "idCampanhaLike")
     @JsonIgnore
     private Campanha campanha;
-    private String URL;
+    private String url;
+    private String email;
 
     public Likes() {
 
     }
-
     public Likes(Usuario likeUsuario, boolean likeMode, Campanha campanha) {
         this.likeUsuario = likeUsuario;
         this.likeMode = likeMode;
         this.campanha = campanha;
-        this.URL = campanha.getURL();
+        this.url = campanha.getURL();
+        this.email = likeUsuario.getEmail();
     }
 
     public Usuario getLikeUsuario() {
@@ -45,8 +47,11 @@ public class Likes {
     public long getIdLike() {
         return this.idLike;
     }
-    public String getURL() {
-        return this.URL;
+    public String getUrl() {
+        return this.url;
+    }
+    public String getEmail() {
+        return this.email;
     }
 
     public void setLikeUsuario(Usuario likeUsuario) {
@@ -58,7 +63,10 @@ public class Likes {
     public void setCampanha(Campanha campanha) {
         this.campanha = campanha;
     }
-    public void setURL(String URL) {
-        this.URL = URL;
+    public void setUrl(String url) {
+        this.url = url;
+    }
+    public void setEmail(String email) {
+        this.email = email;
     }
 }

@@ -18,13 +18,13 @@ public class Campanha {
     private String nomeCurto;
     @Column(unique = true)
     private String URL;
-    private String descricao;
 
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
     private LocalDate deadLine;
     private String status;
     private float meta;
     private float doacoes;
+    private String descricao;
 
     @ManyToOne
     @JoinColumn(name = "email")
@@ -88,6 +88,7 @@ public class Campanha {
     public float getDoacoes() {
         return this.doacoes;
     }
+
     public Usuario getDono() {
         return this.dono;
     }
@@ -102,20 +103,15 @@ public class Campanha {
     public Comentario getComentario(int idComentario) {
         return this.comentarios.get(idComentario);
     }
-
     public List<Likes> getLikes() {
         return this.likes;
     }
-
     public int getNumeroDeLikes() {
         return this.contLike;
     }
-
-    @JsonIgnore
     public List<Doacao> getListaDoacoes() {
         return this.listaDoacoes;
     }
-
     public List<UsuarioDTO> getDoadores() {
         List<UsuarioDTO> doadores = new ArrayList<UsuarioDTO>();
         if (this.listaDoacoes.size() > 0) {
@@ -138,7 +134,6 @@ public class Campanha {
     public void setDeadLine(String deadLine) {
         this.deadLine = LocalDate.parse(deadLine); // Format: "2016-08-16"
     }
-
     public void setStatus(boolean encerramento) {
         if (this.deadLine.isAfter(LocalDate.now())) {
             if(this.doacoes >= this.meta) {
@@ -151,7 +146,6 @@ public class Campanha {
             this.status = "Encerrada";
         }
     }
-
     public void setMeta(float meta) {
         this.meta = meta;
     }
@@ -166,7 +160,6 @@ public class Campanha {
         this.comentarios.add(comentario);
         return this;
     }
-
     public void setContLike(Likes thatLikes) {
         if (thatLikes.getLikeMode()) {
             this.contLike += 1;
@@ -174,7 +167,6 @@ public class Campanha {
             this.contLike -= 1;
         }
     }
-
     public void doarCampanha(Doacao novaDoacao) {
         this.doacoes += novaDoacao.getQuantia();
         this.listaDoacoes.add(novaDoacao);

@@ -1,7 +1,6 @@
 package v1.ajude.comparator;
 
 import v1.ajude.models.Campanha;
-
 import java.util.Comparator;
 
 public class ComparatorCampanhaLike implements Comparator {

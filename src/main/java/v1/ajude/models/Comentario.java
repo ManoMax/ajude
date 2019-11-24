@@ -30,7 +30,6 @@ public class Comentario{
 
     public Comentario() {
     }
-
     public Comentario(Campanha campanha, Usuario usuario, String textoComentario) {
         this.campanha = campanha;
         this.usuario = usuario;
@@ -41,21 +40,17 @@ public class Comentario{
     public long getIdComent() {
         return this.idComent;
     }
-
     public Usuario getUsuario() {
         return this.usuario;
     }
-
     public UsuarioDTO getDonoComentario() {
         Usuario usuario = this.usuario;
         UsuarioDTO usuarioDTO = new UsuarioDTO(usuario.getUrlUser(), usuario.getNickName(), usuario.getPrimeiroNome(), usuario.getUltimoNome(), usuario.getEmail());
         return usuarioDTO;
     }
-
     public String getTextoComentario() {
         return this.textoComentario;
     }
-
     public List<Resposta> getRespostas() {
         return this.respostas;
     }
@@ -63,7 +58,6 @@ public class Comentario{
     public void setUsuario(Usuario usuario) {
         this.usuario = usuario;
     }
-
     public void setTextoComentario(String textoComentario) {
         this.textoComentario = textoComentario;
     }
@@ -72,5 +66,4 @@ public class Comentario{
         respostas.add(resposta);
         return this;
     }
-
 }

@@ -124,25 +124,42 @@ public class CampanhaServices {
         Campanha campanhaSalva = recuperaCampanha(campanha);
         Usuario usuarioSalvo = recuperaUsuario(email);
         Likes likeSalvo = recuperaLike(campanhaSalva, usuarioSalvo);
-        Likes thatLikes = null;
+        Likes thatLike = null;
 
         if (campanhaSalva != null && usuarioSalvo != null) {
 
             if (likeSalvo != null) {
-                thatLikes = likeSalvo;
+                thatLike = likeSalvo;
 
-                if (thatLikes.getLikeMode()) {
-                    thatLikes.setLikeMode(false);
+                if (thatLike.getLikeMode()) {
+                    thatLike.setLikeMode(false);
                 } else {
-                    thatLikes.setLikeMode(true);
+                    thatLike.setLikeMode(true);
                 }
 
             } else {
-                thatLikes = new Likes(usuarioSalvo, true, campanhaSalva);
+                thatLike = new Likes(usuarioSalvo, true, campanhaSalva);
             }
 
-            campanhaSalva.setContLike(thatLikes);
-            likesDAO.save(thatLikes);
+            campanhaSalva.setContLike(thatLike);
+            likesDAO.save(thatLike);
+            campanhasDAO.save(campanhaSalva);
+            return campanhaSalva;
+        }
+        return null;
+    }
+
+    public Campanha doarCampanha(Campanha campanha, Doacao doacao, String email) {
+        Campanha campanhaSalva = recuperaCampanha(campanha);
+        Usuario usuarioSalvo = recuperaUsuario(email);
+
+        if (campanhaSalva != null && usuarioSalvo != null) {
+
+            Doacao novaDoacao = new Doacao(doacao.getQuantia(), doacao.getDataDeDoacaoString(), campanhaSalva, usuarioSalvo);
+            campanhaSalva.doarCampanha(novaDoacao);
+
+            doacoesDAO.save(novaDoacao);
+            usuarioServices.addDoacao(novaDoacao);
             campanhasDAO.save(campanhaSalva);
             return campanhaSalva;
         }
@@ -177,30 +194,10 @@ public class CampanhaServices {
         }
         return null;
     }
-
     private Likes recuperaLike(Campanha campanha, Usuario usuario) {
-        Optional<Likes> like = this.likesDAO.findByURL(campanha.getURL());
+        Optional<Likes> like = this.likesDAO.findByUrlAndEmail(campanha.getURL(), usuario.getEmail());
         if (like.isPresent()) {
-            if (like.get().getLikeUsuario().equals(usuario)) {
-                return like.get();
-            }
-        }
-        return null;
-    }
-
-    public Campanha doarCampanha(Campanha campanha, Doacao doacao, String email) {
-        Campanha campanhaSalva = recuperaCampanha(campanha);
-        Usuario usuarioSalvo = recuperaUsuario(email);
-
-        if (campanhaSalva != null && usuarioSalvo != null) {
-
-            Doacao novaDoacao = new Doacao(doacao.getQuantia(), doacao.getDataDeDoacaoString(), campanhaSalva, usuarioSalvo);
-            campanhaSalva.doarCampanha(novaDoacao);
-
-            doacoesDAO.save(novaDoacao);
-            usuarioServices.addDoacao(novaDoacao);
-            campanhasDAO.save(campanhaSalva);
-            return campanhaSalva;
+            return like.get();
         }
         return null;
     }

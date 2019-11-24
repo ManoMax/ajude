@@ -16,44 +16,45 @@ public class Resposta{
     @JsonIgnore
     private Usuario usuario;
 
-    @JsonIgnore
     @ManyToOne
+    @JsonIgnore
     private Comentario comentarioPai;
 
     private String textoResposta;
 
     public Resposta(){
     }
-
     public Resposta(Comentario comentarioPai, Usuario usuario, String textoResposta) {
         this.comentarioPai = comentarioPai;
         this.usuario = usuario;
         this.textoResposta = textoResposta;
     }
 
-    public void setUsuario(Usuario usuario) {
-        this.usuario = usuario;
-    }
-
     @JsonIgnore
     public long getIdResposta() {
         return this.idResposta;
     }
-
     public Usuario getUsuario() {
         return this.usuario;
     }
-
     public UsuarioDTO getDonoResposta() {
         Usuario usuario = this.usuario;
         UsuarioDTO usuarioDTO = new UsuarioDTO(usuario.getUrlUser(), usuario.getNickName(), usuario.getPrimeiroNome(), usuario.getUltimoNome(), usuario.getEmail());
         return usuarioDTO;
     }
-
     public String getTextoResposta() {
         return this.textoResposta;
     }
+    public Comentario getComentarioPai() {
+        return this.comentarioPai;
+    }
 
+    public void setUsuario(Usuario usuario) {
+        this.usuario = usuario;
+    }
+    public void setComentarioPai(Comentario comentario) {
+        this.comentarioPai = comentario;
+    }
     public void setTextoResposta(String textoResposta) {
         this.textoResposta = textoResposta;
     }

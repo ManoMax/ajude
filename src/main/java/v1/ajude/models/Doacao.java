@@ -48,7 +48,6 @@ public class Doacao {
     public Campanha getCampanha() {
         return this.campanha;
     }
-    @JsonIgnore
     public Usuario getUsuario() {
         return this.usuario;
     }

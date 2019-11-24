@@ -12,7 +12,6 @@ public class UsuarioDTO {
 
     public UsuarioDTO() {
     }
-
     @JsonCreator
     public UsuarioDTO(String urlUser, String nickName, String primeiroNome, String ultimoNome, String email) {
         this.urlUser = urlUser;
@@ -22,42 +21,34 @@ public class UsuarioDTO {
         this.email = email;
     }
 
+    public String getNickName() {
+        return nickName;
+    }
     public String getUrlUser() {
         return urlUser;
+    }
+    public String getPrimeiroNome() {
+        return primeiroNome;
+    }
+    public String getUltimoNome() {
+        return ultimoNome;
+    }
+    public String getEmail() {
+        return email;
     }
 
     public void setUrlUser(String urlUser) {
         this.urlUser = urlUser;
     }
-
-    public String getNickName() {
-        return nickName;
-    }
-
     public void setNickName(String nickName) {
         this.nickName = nickName;
     }
-
-    public String getPrimeiroNome() {
-        return primeiroNome;
-    }
-
     public void setPrimeiroNome(String primeiroNome) {
         this.primeiroNome = primeiroNome;
     }
-
-    public String getUltimoNome() {
-        return ultimoNome;
-    }
-
     public void setUltimoNome(String ultimoNome) {
         this.ultimoNome = ultimoNome;
     }
-
-    public String getEmail() {
-        return email;
-    }
-
     public void setEmail(String email) {
         this.email = email;
     }

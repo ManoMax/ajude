@@ -50,10 +50,10 @@ public class UsuarioServices {
     }
 
     public UsuarioDTO getUsuarioDTO(String email) {
-        Optional<Usuario> usuario = usuariosDAO.findByEmail(email);
-        if (usuario.isPresent()) {
-            Usuario u = usuario.get();
-            UsuarioDTO usuarioDTO = new UsuarioDTO(u.getUrlUser(), u.getNickName(), u.getPrimeiroNome(), u.getUltimoNome(), u.getEmail());
+        Optional<Usuario> usuarioSalvo = usuariosDAO.findByEmail(email);
+        if (usuarioSalvo.isPresent()) {
+            Usuario usuario = usuarioSalvo.get();
+            UsuarioDTO usuarioDTO = new UsuarioDTO(usuario.getUrlUser(), usuario.getNickName(), usuario.getPrimeiroNome(), usuario.getUltimoNome(), usuario.getEmail());
             return usuarioDTO;
         }
         return null;
@@ -71,30 +71,24 @@ public class UsuarioServices {
 
     public boolean exist(Usuario usuario) {
         Optional<Usuario> user = usuariosDAO.findById(usuario.getEmail());
-
         return user.isPresent();
     }
 
     public boolean exist(String emailUsuario) {
         Optional<Usuario> user = usuariosDAO.findById(emailUsuario);
-
         return user.isPresent();
     }
 
     public boolean verificaSenha(Usuario usuario) {
         if (usuario.getEmail() != null) {
-
             Optional<Usuario> user = usuariosDAO.findById(usuario.getEmail());
-
             return user.isPresent() && user.get().getSenha().equals(usuario.getSenha());
-
         }
         return false;
     }
 
     public UsuarioDTO remove(String email) {
         UsuarioDTO user = getUsuarioDTO(email);
-
         usuariosDAO.deleteById(email);
         return user;
     }
