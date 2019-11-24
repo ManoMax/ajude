@@ -92,7 +92,6 @@ public class UsuarioServices {
         return false;
     }
 
-
     public UsuarioDTO remove(String email) {
         UsuarioDTO user = getUsuarioDTO(email);
 

@@ -1,8 +1,6 @@
 package v1.ajude.models;
 
-
 import com.fasterxml.jackson.annotation.JsonCreator;
-
 
 public class UsuarioDTO {
 

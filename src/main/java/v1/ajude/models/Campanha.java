@@ -17,13 +17,13 @@ public class Campanha {
     @Column(unique = true)
     private String nomeCurto;
     @Column(unique = true)
-    private String URL; // identificador de URL único da campanha (gerado pelo frontend a partir do nome curto),
+    private String URL;
     private String descricao;
 
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
-    private LocalDate deadLine; // (término)
-    private String status; // (Ativo ou Desativo)
-    private float meta; // (reais)
+    private LocalDate deadLine;
+    private String status;
+    private float meta;
     private float doacoes;
 
     @ManyToOne

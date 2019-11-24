@@ -57,6 +57,4 @@ public class Resposta{
     public void setTextoResposta(String textoResposta) {
         this.textoResposta = textoResposta;
     }
-
-
 }

@@ -61,5 +61,4 @@ public class Likes {
     public void setURL(String URL) {
         this.URL = URL;
     }
-
 }
