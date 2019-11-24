@@ -36,6 +36,9 @@ public class Campanha {
     @JsonIgnore
     private List<Likes> likes;
     private int contLike;
+    @OneToMany
+    @JsonIgnore
+    private List<Doacao> listaDoacoes;
 
     public Campanha() {
         super();
@@ -53,6 +56,7 @@ public class Campanha {
         this.dono = dono;
         this.comentarios = new ArrayList<Comentario>();
         this.likes = new ArrayList<Likes>();
+        this.listaDoacoes = new ArrayList<Doacao>();
         this.contLike = 0;
     }
 
@@ -81,7 +85,6 @@ public class Campanha {
     public float getMeta() {
         return this.meta;
     }
-    // Criar classe Doacoes
     public float getDoacoes() {
         return this.doacoes;
     }
@@ -90,7 +93,7 @@ public class Campanha {
     }
     public UsuarioDTO getInfoDono() {
         Usuario usuario = this.dono;
-        UsuarioDTO usuarioDTO = new UsuarioDTO(usuario.getPrimeiroNome(), usuario.getUltimoNome(), usuario.getEmail());
+        UsuarioDTO usuarioDTO = new UsuarioDTO(usuario.getUrlUser(), usuario.getNickName(), usuario.getPrimeiroNome(), usuario.getUltimoNome(), usuario.getEmail());
         return usuarioDTO;
     }
     public List<Comentario> getComentarios() {
@@ -106,6 +109,21 @@ public class Campanha {
 
     public int getNumeroDeLikes() {
         return this.contLike;
+    }
+
+    @JsonIgnore
+    public List<Doacao> getListaDoacoes() {
+        return this.listaDoacoes;
+    }
+
+    public List<UsuarioDTO> getDoadores() {
+        List<UsuarioDTO> doadores = new ArrayList<UsuarioDTO>();
+        if (this.listaDoacoes.size() > 0) {
+            for (Doacao doacao : this.listaDoacoes) {
+                doadores.add(doacao.getDonoDoacao());
+            }
+        }
+        return doadores;
     }
 
     public void setNomeCurto(String nomeCurto) {
@@ -137,7 +155,6 @@ public class Campanha {
     public void setMeta(float meta) {
         this.meta = meta;
     }
-    // Criar classe Doacoes
     public void setDoacoes(float doacoes) {
         this.doacoes = doacoes;
     }
@@ -156,5 +173,10 @@ public class Campanha {
         } else {
             this.contLike -= 1;
         }
+    }
+
+    public void doarCampanha(Doacao novaDoacao) {
+        this.doacoes += novaDoacao.getQuantia();
+        this.listaDoacoes.add(novaDoacao);
     }
 }

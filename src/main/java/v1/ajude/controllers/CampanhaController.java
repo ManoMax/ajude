@@ -6,6 +6,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import v1.ajude.models.Campanha;
 import v1.ajude.models.Comentario;
+import v1.ajude.models.Doacao;
 import v1.ajude.models.Resposta;
 import v1.ajude.services.CampanhaServices;
 import v1.ajude.services.JWTService;
@@ -135,4 +136,21 @@ public class CampanhaController {
         return new ResponseEntity<List<Campanha>>(campanhaServices.getCampanhas(substring), HttpStatus.OK);
     }
 
+    @PostMapping("/{urlCampanha}/doacao")
+    public ResponseEntity<Campanha> doarCampanha(@PathVariable("urlCampanha") String urlCampanha, @RequestBody Doacao doacao, @RequestHeader("Authorization") String header) {
+        try {
+            if(jwtService.usuarioExiste(header)) {
+                Optional<Campanha> campanha = campanhaServices.getCampanha(urlCampanha);
+                if (campanha.isPresent()) {
+                    String email = jwtService.getSujeitoDoToken(header);
+                    return new ResponseEntity<Campanha>(campanhaServices.doarCampanha(campanha.get(), doacao, email), HttpStatus.OK);
+                } else {
+                    return new ResponseEntity<Campanha>(HttpStatus.NOT_FOUND);
+                }
+            }
+        }catch(ServletException e){
+            return new ResponseEntity<Campanha>(HttpStatus.FORBIDDEN);
+        }
+        return new ResponseEntity<Campanha>(HttpStatus.UNAUTHORIZED);
+    }
 }

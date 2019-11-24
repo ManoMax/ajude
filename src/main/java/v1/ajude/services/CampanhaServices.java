@@ -1,11 +1,9 @@
 package v1.ajude.services;
 
+import jdk.internal.org.jline.reader.History;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import v1.ajude.daos.CampanhaRepository;
-import v1.ajude.daos.ComentarioRepository;
-import v1.ajude.daos.LikesRepository;
-import v1.ajude.daos.RespostaRepository;
+import v1.ajude.daos.*;
 import v1.ajude.models.*;
 
 import java.util.ArrayList;
@@ -23,6 +21,8 @@ public class CampanhaServices {
     private RespostaRepository<Resposta, Integer> respostasDAO;
     @Autowired
     private LikesRepository<Likes, Integer> likesDAO;
+    @Autowired
+    private DoacaoRepository<Doacao, Integer> doacoesDAO;
 
     @Autowired
     private UsuarioServices usuarioServices;
@@ -35,9 +35,12 @@ public class CampanhaServices {
         Campanha campanhaSalva = recuperaCampanha(campanha);
 
         if (campanhaSalva == null) {
-            Campanha campanhaConstruct = new Campanha(campanha.getNomeCurto(), campanha.getDescricao(),
+            Campanha novaCampanha = new Campanha(campanha.getNomeCurto(), campanha.getDescricao(),
                     campanha.getDeadLineString(), campanha.getURL(), campanha.getMeta(), usuarioServices.getUsuario(email).get());
-            return campanhasDAO.save(campanhaConstruct);
+
+            usuarioServices.addCampanha(novaCampanha);
+
+            return campanhasDAO.save(novaCampanha);
         }
         return null;
     }
@@ -178,4 +181,20 @@ public class CampanhaServices {
         return null;
     }
 
+    public Campanha doarCampanha(Campanha campanha, Doacao doacao, String email) {
+        Campanha campanhaSalva = recuperaCampanha(campanha);
+        Usuario usuarioSalvo = recuperaUsuario(email);
+
+        if (campanhaSalva != null && usuarioSalvo != null) {
+
+            Doacao novaDoacao = new Doacao(doacao.getQuantia(), doacao.getDataDeDoacaoString(), campanhaSalva, usuarioSalvo);
+            campanhaSalva.doarCampanha(novaDoacao);
+
+            doacoesDAO.save(novaDoacao);
+            usuarioServices.addDoacao(novaDoacao);
+            campanhasDAO.save(campanhaSalva);
+            return campanhaSalva;
+        }
+        return null;
+    }
 }

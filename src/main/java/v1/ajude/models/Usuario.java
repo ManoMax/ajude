@@ -2,6 +2,7 @@ package v1.ajude.models;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
+import javax.persistence.Column;
 import javax.persistence.Id;
 import javax.persistence.Entity;
 import javax.persistence.OneToMany;
@@ -11,6 +12,10 @@ import java.util.List;
 @Entity
 public class Usuario {
 
+    @Column(unique = true)
+    private String urlUser;
+    @Column(unique = true)
+    private String nickName;
     private String primeiroNome;
     private String ultimoNome;
     @Id
@@ -20,7 +25,6 @@ public class Usuario {
 
     @OneToMany
     private List<Campanha> campanhasCriadas;
-
     @OneToMany
     @JsonIgnore
     private List<Comentario> comentarios;
@@ -28,11 +32,16 @@ public class Usuario {
     @JsonIgnore
     private List<Likes> likes;
 
+    @OneToMany
+    private List<Doacao> doacoes;
+
     public Usuario() {
         super();
     }
-    public Usuario(String primeiroNome, String ultimoNome, String email, String numCartao, String senha) {
+    public Usuario(String urlUser, String nickName, String primeiroNome, String ultimoNome, String email, String numCartao, String senha) {
         super();
+        this.urlUser = urlUser;
+        this.nickName = nickName;
         this.primeiroNome = primeiroNome;
         this.ultimoNome = ultimoNome;
         this.email = email;
@@ -41,6 +50,7 @@ public class Usuario {
         this.campanhasCriadas = new ArrayList<Campanha>();
         this.comentarios = new ArrayList<Comentario>();
         this.likes = new ArrayList<Likes>();
+        this.doacoes = new ArrayList<Doacao>();
     }
 
     public String getPrimeiroNome() {
@@ -60,6 +70,15 @@ public class Usuario {
     }
     public List<Campanha> getCampanhasCriadas() {
         return this.campanhasCriadas;
+    }
+    public List<Doacao> getDoacoes() {
+        return this.doacoes;
+    }
+    public String getUrlUser() {
+        return this.urlUser;
+    }
+    public String getNickName() {
+        return this.nickName;
     }
 
     public void setPrimeiroNome(String primeiroNome) {
