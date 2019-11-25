@@ -39,7 +39,7 @@ public class Resposta{
     }
     public UsuarioDTO getDonoResposta() {
         Usuario usuario = this.usuario;
-        UsuarioDTO usuarioDTO = new UsuarioDTO(usuario.getUrlUser(), usuario.getNickName(), usuario.getPrimeiroNome(), usuario.getUltimoNome(), usuario.getEmail());
+        UsuarioDTO usuarioDTO = new UsuarioDTO(usuario.getUrlUser(), usuario.getPrimeiroNome(), usuario.getUltimoNome(), usuario.getEmail());
         return usuarioDTO;
     }
     public String getTextoResposta() {
