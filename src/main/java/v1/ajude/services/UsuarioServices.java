@@ -24,6 +24,8 @@ public class UsuarioServices {
     private DoacaoRepository<Doacao, Integer> doacoesDAO;
     @Autowired
     private CampanhaRepository<Campanha, Integer> campanhasDAO;
+    @Autowired
+    private EmailService emailService;
 
     public UsuarioServices(UsuariosRepository<Usuario, String> usuariosDAO) {
         super();
@@ -36,6 +38,7 @@ public class UsuarioServices {
             Usuario novoUsuario = new Usuario(usuario.getUrlUser(), usuario.getNickName(), usuario.getPrimeiroNome(), usuario.getUltimoNome(), usuario.getEmail(), usuario.getNumCartao(), usuario.getSenha());
             usuariosDAO.save(novoUsuario);
             UsuarioDTO usuarioDTO = new UsuarioDTO(usuario.getUrlUser(), usuario.getNickName(), usuario.getPrimeiroNome(), usuario.getUltimoNome(), usuario.getEmail());
+            emailService.boasVindas(novoUsuario);
             return usuarioDTO;
         }
         return null;
