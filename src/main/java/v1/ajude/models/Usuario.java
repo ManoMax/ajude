@@ -14,8 +14,6 @@ public class Usuario {
 
     @Column(unique = true)
     private String urlUser;
-    @Column(unique = true)
-    private String nickName;
     private String primeiroNome;
     private String ultimoNome;
     @Id
@@ -37,10 +35,9 @@ public class Usuario {
     public Usuario() {
         super();
     }
-    public Usuario(String urlUser, String nickName, String primeiroNome, String ultimoNome, String email, String numCartao, String senha) {
+    public Usuario(String urlUser, String primeiroNome, String ultimoNome, String email, String numCartao, String senha) {
         super();
         this.urlUser = urlUser;
-        this.nickName = nickName;
         this.primeiroNome = primeiroNome;
         this.ultimoNome = ultimoNome;
         this.email = email;
@@ -54,9 +51,6 @@ public class Usuario {
 
     public String getUrlUser() {
         return this.urlUser;
-    }
-    public String getNickName() {
-        return this.nickName;
     }
     public String getPrimeiroNome() {
         return this.primeiroNome;

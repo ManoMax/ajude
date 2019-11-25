@@ -35,9 +35,9 @@ public class UsuarioServices {
     public UsuarioDTO addUsuario(Usuario usuario) {
         Optional<Usuario> searchUser = this.usuariosDAO.findByEmail(usuario.getEmail());
         if (!searchUser.isPresent()) {
-            Usuario novoUsuario = new Usuario(usuario.getUrlUser(), usuario.getNickName(), usuario.getPrimeiroNome(), usuario.getUltimoNome(), usuario.getEmail(), usuario.getNumCartao(), usuario.getSenha());
+            Usuario novoUsuario = new Usuario(usuario.getUrlUser(), usuario.getPrimeiroNome(), usuario.getUltimoNome(), usuario.getEmail(), usuario.getNumCartao(), usuario.getSenha());
             usuariosDAO.save(novoUsuario);
-            UsuarioDTO usuarioDTO = new UsuarioDTO(usuario.getUrlUser(), usuario.getNickName(), usuario.getPrimeiroNome(), usuario.getUltimoNome(), usuario.getEmail());
+            UsuarioDTO usuarioDTO = new UsuarioDTO(usuario.getUrlUser(), usuario.getPrimeiroNome(), usuario.getUltimoNome(), usuario.getEmail());
             emailService.boasVindas(novoUsuario);
             return usuarioDTO;
         }
@@ -56,7 +56,7 @@ public class UsuarioServices {
         Optional<Usuario> usuarioSalvo = usuariosDAO.findByEmail(email);
         if (usuarioSalvo.isPresent()) {
             Usuario usuario = usuarioSalvo.get();
-            UsuarioDTO usuarioDTO = new UsuarioDTO(usuario.getUrlUser(), usuario.getNickName(), usuario.getPrimeiroNome(), usuario.getUltimoNome(), usuario.getEmail());
+            UsuarioDTO usuarioDTO = new UsuarioDTO(usuario.getUrlUser(), usuario.getPrimeiroNome(), usuario.getUltimoNome(), usuario.getEmail());
             return usuarioDTO;
         }
         return null;
@@ -66,7 +66,7 @@ public class UsuarioServices {
         List<Usuario> usuarios = usuariosDAO.findAll();
         List<UsuarioDTO> usuariosDTO = new ArrayList<UsuarioDTO>();
         for (Usuario usuario : usuarios) {
-            UsuarioDTO usuarioDTO = new UsuarioDTO(usuario.getUrlUser(), usuario.getNickName(), usuario.getPrimeiroNome(), usuario.getUltimoNome(), usuario.getEmail());
+            UsuarioDTO usuarioDTO = new UsuarioDTO(usuario.getUrlUser(), usuario.getPrimeiroNome(), usuario.getUltimoNome(), usuario.getEmail());
             usuariosDTO.add(usuarioDTO);
         }
         return usuariosDTO;
