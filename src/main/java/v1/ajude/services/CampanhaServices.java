@@ -101,6 +101,21 @@ public class CampanhaServices {
         return null;
     }
 
+    public Comentario apagarComentario(Campanha campanha, Long idComentario, String email) {
+        Comentario comentarioSalvo = recuperaComentario(idComentario);
+        Campanha campanhaSalva = recuperaCampanha(campanha);
+
+        if (comentarioSalvo != null) {
+
+            comentarioSalvo.setApagado();
+
+            comentariosDAO.save(comentarioSalvo);
+            campanhasDAO.save(campanhaSalva);
+            return comentarioSalvo;
+        }
+        return null;
+    }
+
     public Comentario addResposta(Campanha campanha, Long idComentario, Resposta resposta, String email) {
         Campanha campanhaSalva = recuperaCampanha(campanha);
         Usuario usuarioSalvo = recuperaUsuario(email);

@@ -95,6 +95,24 @@ public class CampanhaController {
         return new ResponseEntity<Comentario>(HttpStatus.UNAUTHORIZED);
     }
 
+    @PostMapping("/{urlCampanha}/apagarComentario/{idComentario}")
+    public ResponseEntity<Comentario> apagarComentario(@PathVariable String urlCampanha, @PathVariable Long idComentario, @RequestHeader("Authorization") String header) {
+        try {
+            if(jwtService.usuarioExiste(header)) {
+                Optional<Campanha> campanha = campanhaServices.getCampanha(urlCampanha);
+                if (campanha.isPresent()) {
+                    String email = jwtService.getSujeitoDoToken(header);
+                    return new ResponseEntity<Comentario>(campanhaServices.apagarComentario(campanha.get(), idComentario, email), HttpStatus.OK);
+                } else {
+                    return new ResponseEntity<Comentario>(HttpStatus.NOT_FOUND);
+                }
+            }
+        }catch(ServletException e){
+            return new ResponseEntity<Comentario>(HttpStatus.FORBIDDEN);
+        }
+        return new ResponseEntity<Comentario>(HttpStatus.UNAUTHORIZED);
+    }
+
     @PostMapping("/{urlCampanha}/comentario/{idComentario}")
     public ResponseEntity<Comentario> addResposta(@PathVariable String urlCampanha, @PathVariable Long idComentario, @RequestBody Resposta resposta, @RequestHeader("Authorization") String header) {
         try {

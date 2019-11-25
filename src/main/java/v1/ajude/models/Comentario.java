@@ -28,6 +28,8 @@ public class Comentario{
     @OneToMany(mappedBy = "comentarioPai", cascade = CascadeType.ALL)
     private List<Resposta> respostas;
 
+    private boolean apagado;
+
     public Comentario() {
     }
     public Comentario(Campanha campanha, Usuario usuario, String textoComentario) {
@@ -35,6 +37,7 @@ public class Comentario{
         this.usuario = usuario;
         this.textoComentario = textoComentario;
         this.respostas = new ArrayList<Resposta>();
+        this.apagado = false;
     }
 
     public long getIdComent() {
@@ -49,10 +52,17 @@ public class Comentario{
         return usuarioDTO;
     }
     public String getTextoComentario() {
-        return this.textoComentario;
+        if (this.apagado) {
+            return "";
+        } else {
+            return this.textoComentario;
+        }
     }
     public List<Resposta> getRespostas() {
         return this.respostas;
+    }
+    public boolean getApagado() {
+        return this.apagado;
     }
 
     public void setUsuario(Usuario usuario) {
@@ -65,5 +75,9 @@ public class Comentario{
     public Comentario addResposta(Usuario usuario, Resposta resposta) {
         respostas.add(resposta);
         return this;
+    }
+
+    public void setApagado() {
+        this.apagado = true;
     }
 }
