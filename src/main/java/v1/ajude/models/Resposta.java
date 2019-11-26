@@ -22,15 +22,17 @@ public class Resposta{
 
     private String textoResposta;
 
+    private boolean apagada;
+
     public Resposta(){
     }
     public Resposta(Comentario comentarioPai, Usuario usuario, String textoResposta) {
         this.comentarioPai = comentarioPai;
         this.usuario = usuario;
         this.textoResposta = textoResposta;
+        this.apagada = false;
     }
 
-    @JsonIgnore
     public long getIdResposta() {
         return this.idResposta;
     }
@@ -43,10 +45,16 @@ public class Resposta{
         return usuarioDTO;
     }
     public String getTextoResposta() {
+        if (this.apagada) {
+            return "";
+        }
         return this.textoResposta;
     }
     public Comentario getComentarioPai() {
         return this.comentarioPai;
+    }
+    public boolean getApagada() {
+        return this.apagada;
     }
 
     public void setUsuario(Usuario usuario) {
@@ -57,5 +65,8 @@ public class Resposta{
     }
     public void setTextoResposta(String textoResposta) {
         this.textoResposta = textoResposta;
+    }
+    public void setApagada() {
+        this.apagada = true;
     }
 }

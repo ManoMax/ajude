@@ -135,6 +135,23 @@ public class CampanhaServices {
         return null;
     }
 
+    public Comentario apagarResposta(Campanha campanha, Long idComentario, Long idResposta, String email) {
+        Comentario comentarioSalvo = recuperaComentario(idComentario);
+        Campanha campanhaSalva = recuperaCampanha(campanha);
+        Resposta respostaSalva = recuperaResposta(idResposta);
+
+        if (comentarioSalvo != null && respostaSalva != null) {
+
+            respostaSalva.setApagada();
+
+            respostasDAO.save(respostaSalva);
+            comentariosDAO.save(comentarioSalvo);
+            campanhasDAO.save(campanhaSalva);
+            return comentarioSalvo;
+        }
+        return null;
+    }
+
     public Campanha addLike(Campanha campanha, String email) {
         Campanha campanhaSalva = recuperaCampanha(campanha);
         Usuario usuarioSalvo = recuperaUsuario(email);
@@ -216,6 +233,13 @@ public class CampanhaServices {
         }
         return null;
     }
+    private Resposta recuperaResposta(Long idResposta) {
+        Optional<Resposta> respostaSalva =  this.respostasDAO.findById(idResposta);
+        if (respostaSalva.isPresent()) {
+            return respostaSalva.get();
+        }
+        return null;
+    }
 
     public List<Campanha> getCampanhasLike() {
         List<Campanha> listaCampanhas = this.campanhasDAO.findAll();
@@ -232,4 +256,5 @@ public class CampanhaServices {
         Collections.sort(listaCampanhas, comparatorCampanhaQuantia);
         return listaCampanhas;
     }
+
 }

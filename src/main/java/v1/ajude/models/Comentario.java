@@ -54,9 +54,8 @@ public class Comentario{
     public String getTextoComentario() {
         if (this.apagado) {
             return "";
-        } else {
-            return this.textoComentario;
         }
+    	return this.textoComentario;
     }
     public List<Resposta> getRespostas() {
         return this.respostas;
