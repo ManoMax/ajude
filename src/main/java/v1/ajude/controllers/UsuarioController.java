@@ -1,8 +1,8 @@
 package v1.ajude.controllers;
 
 import v1.ajude.models.Usuario;
-import v1.ajude.models.UsuarioDTO;
-import v1.ajude.models.UsuarioDTOPagina;
+import v1.ajude.dtos.UsuarioDTO;
+import v1.ajude.dtos.UsuarioDTOPagina;
 import v1.ajude.services.JWTService;
 import v1.ajude.services.UsuarioServices;
 

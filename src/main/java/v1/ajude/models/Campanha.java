@@ -2,6 +2,7 @@ package v1.ajude.models;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import v1.ajude.dtos.UsuarioDTO;
 
 import javax.persistence.*;
 import java.time.LocalDate;
@@ -170,6 +171,7 @@ public class Campanha {
     }
     public void doarCampanha(Doacao novaDoacao) {
         this.doacoes += novaDoacao.getQuantia();
+        this.setStatus(false);
         this.listaDoacoes.add(novaDoacao);
     }
 }

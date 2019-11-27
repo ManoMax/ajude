@@ -5,6 +5,8 @@ import org.springframework.stereotype.Service;
 import v1.ajude.daos.CampanhaRepository;
 import v1.ajude.daos.DoacaoRepository;
 import v1.ajude.daos.UsuariosRepository;
+import v1.ajude.dtos.UsuarioDTO;
+import v1.ajude.dtos.UsuarioDTOPagina;
 import v1.ajude.models.*;
 
 import java.util.ArrayList;

@@ -1,6 +1,8 @@
 package v1.ajude.models;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import v1.ajude.dtos.CampanhaDTO;
+import v1.ajude.dtos.DoacaoDTO;
 
 import javax.persistence.Column;
 import javax.persistence.Id;

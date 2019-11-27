@@ -1,4 +1,4 @@
-package v1.ajude.models;
+package v1.ajude.dtos;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 

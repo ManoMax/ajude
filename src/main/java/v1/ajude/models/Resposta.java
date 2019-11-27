@@ -1,6 +1,7 @@
 package v1.ajude.models;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import v1.ajude.dtos.UsuarioDTO;
 
 import javax.persistence.*;
 
