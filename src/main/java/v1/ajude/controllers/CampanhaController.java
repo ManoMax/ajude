@@ -60,7 +60,7 @@ public class CampanhaController {
 
     }
 
-    @RequestMapping("/{urlCampanha}/status")
+    @PutMapping("/{urlCampanha}/status")
     public ResponseEntity<Campanha> encerraCampanha(@PathVariable String urlCampanha, @RequestHeader("Authorization") String header) {
         try {
             if(jwtService.usuarioExiste(header)) {
@@ -95,7 +95,7 @@ public class CampanhaController {
         return new ResponseEntity<Comentario>(HttpStatus.UNAUTHORIZED);
     }
 
-    @PostMapping("/{urlCampanha}/apagarComentario/{idComentario}")
+    @DeleteMapping("/{urlCampanha}/apagarComentario/{idComentario}")
     public ResponseEntity<Comentario> apagarComentario(@PathVariable String urlCampanha, @PathVariable Long idComentario, @RequestHeader("Authorization") String header) {
         try {
             if(jwtService.usuarioExiste(header)) {
@@ -131,7 +131,7 @@ public class CampanhaController {
         return new ResponseEntity<Comentario>(HttpStatus.UNAUTHORIZED);
     }
 
-    @PostMapping("/{urlCampanha}/comentario/{idComentario}/apagarResposta/{idResposta}")
+    @DeleteMapping("/{urlCampanha}/comentario/{idComentario}/apagarResposta/{idResposta}")
     public ResponseEntity<Comentario> apagarResposta(@PathVariable String urlCampanha, @PathVariable Long idComentario, @PathVariable Long idResposta, @RequestHeader("Authorization") String header) {
         try {
             if(jwtService.usuarioExiste(header)) {
@@ -190,16 +190,16 @@ public class CampanhaController {
         return new ResponseEntity<Campanha>(HttpStatus.UNAUTHORIZED);
     }
 
-    @GetMapping("/campanhasLike")
-    public ResponseEntity<List<Campanha>> getCampanhasLike() {
+    @GetMapping("/campanhasByLike")
+    public ResponseEntity<List<Campanha>> getCampanhasByLike() {
         return new ResponseEntity<List<Campanha>>(this.campanhaServices.getCampanhasLike(), HttpStatus.OK);
     }
-    @GetMapping("/campanhasData")
-    public ResponseEntity<List<Campanha>> getCampanhasData() {
+    @GetMapping("/campanhasByData")
+    public ResponseEntity<List<Campanha>> getCampanhasByData() {
         return new ResponseEntity<List<Campanha>>(this.campanhaServices.getCampanhasData(), HttpStatus.OK);
     }
-    @GetMapping("/campanhasQuantia")
-    public ResponseEntity<List<Campanha>> getCampanhasQuantia() {
+    @GetMapping("/campanhasByQuantia")
+    public ResponseEntity<List<Campanha>> getCampanhasByQuantia() {
         return new ResponseEntity<List<Campanha>>(this.campanhaServices.getCampanhasQuantia(), HttpStatus.OK);
     }
 

@@ -79,6 +79,9 @@ public class Comentario{
     }
 
     public void setApagado() {
+        for (Resposta resposta : this.respostas) {
+            resposta.setApagada();
+        }
         this.apagado = true;
     }
 }
