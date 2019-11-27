@@ -5,10 +5,7 @@ import org.springframework.stereotype.Service;
 import v1.ajude.daos.CampanhaRepository;
 import v1.ajude.daos.DoacaoRepository;
 import v1.ajude.daos.UsuariosRepository;
-import v1.ajude.models.Campanha;
-import v1.ajude.models.Doacao;
-import v1.ajude.models.Usuario;
-import v1.ajude.models.UsuarioDTO;
+import v1.ajude.models.*;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -37,7 +34,8 @@ public class UsuarioServices {
         if (!searchUser.isPresent()) {
             Usuario novoUsuario = new Usuario(usuario.getUrlUser(), usuario.getPrimeiroNome(), usuario.getUltimoNome(), usuario.getEmail(), usuario.getNumCartao(), usuario.getSenha());
             usuariosDAO.save(novoUsuario);
-            UsuarioDTO usuarioDTO = new UsuarioDTO(usuario.getUrlUser(), usuario.getPrimeiroNome(), usuario.getUltimoNome(), usuario.getEmail());
+            UsuarioDTO usuarioDTO = new UsuarioDTO(usuario.getUrlUser(), usuario.getPrimeiroNome(),
+                    usuario.getUltimoNome(), usuario.getEmail());
             emailService.boasVindas(novoUsuario);
             return usuarioDTO;
         }
@@ -52,11 +50,12 @@ public class UsuarioServices {
         return null;
     }
 
-    public UsuarioDTO getUsuarioDTO(String email) {
-        Optional<Usuario> usuarioSalvo = usuariosDAO.findByEmail(email);
+    public UsuarioDTO getUsuarioDTO(String urlUser) {
+        Optional<Usuario> usuarioSalvo = usuariosDAO.findByUrlUser(urlUser);
         if (usuarioSalvo.isPresent()) {
             Usuario usuario = usuarioSalvo.get();
-            UsuarioDTO usuarioDTO = new UsuarioDTO(usuario.getUrlUser(), usuario.getPrimeiroNome(), usuario.getUltimoNome(), usuario.getEmail());
+            UsuarioDTO usuarioDTO = new UsuarioDTO(usuario.getUrlUser(), usuario.getPrimeiroNome(),
+                    usuario.getUltimoNome(), usuario.getEmail());
             return usuarioDTO;
         }
         return null;
@@ -66,7 +65,8 @@ public class UsuarioServices {
         List<Usuario> usuarios = usuariosDAO.findAll();
         List<UsuarioDTO> usuariosDTO = new ArrayList<UsuarioDTO>();
         for (Usuario usuario : usuarios) {
-            UsuarioDTO usuarioDTO = new UsuarioDTO(usuario.getUrlUser(), usuario.getPrimeiroNome(), usuario.getUltimoNome(), usuario.getEmail());
+            UsuarioDTO usuarioDTO = new UsuarioDTO(usuario.getUrlUser(), usuario.getPrimeiroNome(),
+                    usuario.getUltimoNome(), usuario.getEmail());
             usuariosDTO.add(usuarioDTO);
         }
         return usuariosDTO;
@@ -102,5 +102,16 @@ public class UsuarioServices {
 
     public void addCampanha(Campanha novaCampanha) {
         this.campanhasDAO.save(novaCampanha);
+    }
+
+    public UsuarioDTOPagina getUsuarioDTOPagina(String urlUser) {
+        Optional<Usuario> usuarioSalvo = usuariosDAO.findByUrlUser(urlUser);
+        if (usuarioSalvo.isPresent()) {
+            Usuario usuario = usuarioSalvo.get();
+            UsuarioDTOPagina usuarioDTOPagina = new UsuarioDTOPagina(usuario.getUrlUser(), usuario.getPrimeiroNome(),
+                    usuario.getUltimoNome(), usuario.getEmail(), usuario.getCampanhasCriadasDTO(), usuario.getDoacoesFeitasDTO());
+            return usuarioDTOPagina;
+        }
+        return null;
     }
 }

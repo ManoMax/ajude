@@ -75,6 +75,22 @@ public class Usuario {
         return this.doacoesFeitas;
     }
 
+    public List<CampanhaDTO> getCampanhasCriadasDTO() {
+        List<CampanhaDTO> campanhaDTOS = new ArrayList<CampanhaDTO>();
+        for (Campanha campanha : this.campanhasCriadas) {
+            campanhaDTOS.add(new CampanhaDTO(campanha.getNomeCurto(), campanha.getURL(), campanha.getDeadLineString(),
+                    campanha.getStatus(), campanha.getMeta(), campanha.getDoacoes(), campanha.getDescricao(), campanha.getNumeroDeLikes()));
+        }
+        return campanhaDTOS;
+    }
+    public List<DoacaoDTO> getDoacoesFeitasDTO() {
+        List<DoacaoDTO> doacaoDTOS = new ArrayList<DoacaoDTO>();
+        for (Doacao doacao : this.doacoesFeitas) {
+            doacaoDTOS.add(new DoacaoDTO(doacao.getQuantia(), doacao.getDataDeDoacaoString(), doacao.getCampanhaDTO()));
+        }
+        return doacaoDTOS;
+    }
+
 
     public void setPrimeiroNome(String primeiroNome) {
         this.primeiroNome = primeiroNome;
@@ -100,5 +116,8 @@ public class Usuario {
     }
     public void setLikesEmCampanhas(Likes likesEmCampanhas) {
         this.likesEmCampanhas.add(likesEmCampanhas);
+    }
+    public void setNovaDoacao(Doacao novaDoacao) {
+        this.doacoesFeitas.add(novaDoacao);
     }
 }

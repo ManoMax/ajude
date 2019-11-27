@@ -24,7 +24,7 @@ public class JWTService {
     public String geraToken(String email) {
         return Jwts.builder().setSubject(email)
                 .signWith(SignatureAlgorithm.HS512, TOKEN_KEY)
-                .setExpiration(new Date(System.currentTimeMillis() + 60 * 60 * 1000)).compact(); //60 min
+                .setExpiration(new Date(System.currentTimeMillis() + (60 * 60 * 1000))).compact(); //60 min
     }
 
     public boolean usuarioTemPermissao(String authorizationHeader, String email) throws ServletException {

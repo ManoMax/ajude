@@ -2,6 +2,7 @@ package v1.ajude.controllers;
 
 import v1.ajude.models.Usuario;
 import v1.ajude.models.UsuarioDTO;
+import v1.ajude.models.UsuarioDTOPagina;
 import v1.ajude.services.JWTService;
 import v1.ajude.services.UsuarioServices;
 
@@ -33,9 +34,9 @@ public class UsuarioController {
         return new ResponseEntity<UsuarioDTO>(usuarioServices.addUsuario(usuario), HttpStatus.OK);
     }
 
-    @GetMapping("/{email}")
-    public ResponseEntity<UsuarioDTO> getUsuario(@PathVariable String email) {
-        return new ResponseEntity<UsuarioDTO>(usuarioServices.getUsuarioDTO(email), HttpStatus.OK);
+    @GetMapping("/{urlUser}")
+    public ResponseEntity<UsuarioDTOPagina> getUsuario(@PathVariable String urlUser) {
+        return new ResponseEntity<UsuarioDTOPagina>(usuarioServices.getUsuarioDTOPagina(urlUser), HttpStatus.OK);
     }
 
     @RequestMapping("/list")

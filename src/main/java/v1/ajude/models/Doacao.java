@@ -48,12 +48,17 @@ public class Doacao {
     public Campanha getCampanha() {
         return this.campanha;
     }
+    public CampanhaDTO getCampanhaDTO() {
+        return new CampanhaDTO(this.campanha.getNomeCurto(), campanha.getURL(), campanha.getDeadLineString(), campanha.getStatus(),
+                campanha.getMeta(), campanha.getDoacoes(), campanha.getDescricao(), campanha.getNumeroDeLikes());
+    }
     public Usuario getUsuario() {
         return this.usuario;
     }
     public UsuarioDTO getDonoDoacao() {
         Usuario usuario = this.usuario;
-        UsuarioDTO usuarioDTO = new UsuarioDTO(usuario.getUrlUser(), usuario.getPrimeiroNome(), usuario.getUltimoNome(), usuario.getEmail());
+        UsuarioDTO usuarioDTO = new UsuarioDTO(usuario.getUrlUser(), usuario.getPrimeiroNome(),
+                usuario.getUltimoNome(), usuario.getEmail());
         return usuarioDTO;
     }
 

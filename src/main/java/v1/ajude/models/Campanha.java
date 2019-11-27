@@ -94,7 +94,8 @@ public class Campanha {
     }
     public UsuarioDTO getInfoDono() {
         Usuario usuario = this.dono;
-        UsuarioDTO usuarioDTO = new UsuarioDTO(usuario.getUrlUser(), usuario.getPrimeiroNome(), usuario.getUltimoNome(), usuario.getEmail());
+        UsuarioDTO usuarioDTO = new UsuarioDTO(usuario.getUrlUser(), usuario.getPrimeiroNome(),
+                usuario.getUltimoNome(), usuario.getEmail());
         return usuarioDTO;
     }
     public List<Comentario> getComentarios() {
@@ -135,7 +136,7 @@ public class Campanha {
         this.deadLine = LocalDate.parse(deadLine); // Format: "2016-08-16"
     }
     public void setStatus(boolean encerramento) {
-        if (this.deadLine.isAfter(LocalDate.now())) {
+        if (this.deadLine.isBefore(LocalDate.now())) {
             if(this.doacoes >= this.meta) {
                 this.status = "Concluída";
             } else  {

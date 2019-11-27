@@ -4,21 +4,25 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 
 import java.util.List;
 
-public class UsuarioDTO {
+public class UsuarioDTOPagina {
 
     private String urlUser;
     private String primeiroNome;
     private String ultimoNome;
     private String email;
+    private List<CampanhaDTO> campanhaDTOList;
+    private List<DoacaoDTO> doacaoDTOList;
 
-    public UsuarioDTO() {
+    public UsuarioDTOPagina() {
     }
     @JsonCreator
-    public UsuarioDTO(String urlUser, String primeiroNome, String ultimoNome, String email) {
+    public UsuarioDTOPagina(String urlUser, String primeiroNome, String ultimoNome, String email, List<CampanhaDTO> campanhaDTOList, List<DoacaoDTO> doacaoDTOSList) {
         this.urlUser = urlUser;
         this.primeiroNome = primeiroNome;
         this.ultimoNome = ultimoNome;
         this.email = email;
+        this.campanhaDTOList = campanhaDTOList;
+        this.doacaoDTOList = doacaoDTOSList;
     }
 
     public String getUrlUser() {
@@ -48,4 +52,19 @@ public class UsuarioDTO {
         this.email = email;
     }
 
+    public List<CampanhaDTO> getCampanhaDTOList() {
+        return campanhaDTOList;
+    }
+
+    public void setCampanhaDTOList(List<CampanhaDTO> campanhaDTOList) {
+        this.campanhaDTOList = campanhaDTOList;
+    }
+
+    public List<DoacaoDTO> getDoacaoDTOList() {
+        return doacaoDTOList;
+    }
+
+    public void setDoacaoDTOList(List<DoacaoDTO> doacaoDTOList) {
+        this.doacaoDTOList = doacaoDTOList;
+    }
 }

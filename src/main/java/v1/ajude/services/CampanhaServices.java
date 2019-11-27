@@ -40,14 +40,17 @@ public class CampanhaServices {
 
     public Campanha criarCampanha(String email, Campanha campanha) {
         Campanha campanhaSalva = recuperaCampanha(campanha);
+        Usuario usuarioSalvo = recuperaUsuario(email);
 
-        if (campanhaSalva == null) {
+        if (campanhaSalva == null && usuarioSalvo != null) {
             Campanha novaCampanha = new Campanha(campanha.getNomeCurto(), campanha.getDescricao(),
-                    campanha.getDeadLineString(), campanha.getURL(), campanha.getMeta(), usuarioServices.getUsuario(email).get());
+                    campanha.getDeadLineString(), campanha.getURL(), campanha.getMeta(), usuarioSalvo);
+
+            usuarioSalvo.setCampanhasCriadas(novaCampanha);
 
             usuarioServices.addCampanha(novaCampanha);
-
-            return campanhasDAO.save(novaCampanha);
+            campanhasDAO.save(novaCampanha);
+            return novaCampanha;
         }
         return null;
     }
@@ -188,7 +191,9 @@ public class CampanhaServices {
         if (campanhaSalva != null && usuarioSalvo != null) {
 
             Doacao novaDoacao = new Doacao(doacao.getQuantia(), doacao.getDataDeDoacaoString(), campanhaSalva, usuarioSalvo);
+
             campanhaSalva.doarCampanha(novaDoacao);
+            usuarioSalvo.setNovaDoacao(novaDoacao);
 
             doacoesDAO.save(novaDoacao);
             usuarioServices.addDoacao(novaDoacao);

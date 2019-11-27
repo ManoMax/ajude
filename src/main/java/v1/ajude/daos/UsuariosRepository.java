@@ -11,4 +11,6 @@ import java.util.Optional;
 public interface UsuariosRepository<T, ID extends Serializable> extends JpaRepository<Usuario, String> {
 
     Optional<T> findByEmail(String email);
+
+    Optional<T> findByUrlUser(String urlUser);
 }
