@@ -52,7 +52,7 @@ public class UsuarioDTOPagina {
         this.email = email;
     }
 
-    public List<CampanhaDTO> getCampanhaDTOList() {
+    public List<CampanhaDTO> getCampanhasCriadas() {
         return campanhaDTOList;
     }
 
@@ -60,7 +60,7 @@ public class UsuarioDTOPagina {
         this.campanhaDTOList = campanhaDTOList;
     }
 
-    public List<DoacaoDTO> getDoacaoDTOList() {
+    public List<DoacaoDTO> getDoacoesRealizadas() {
         return doacaoDTOList;
     }
 
