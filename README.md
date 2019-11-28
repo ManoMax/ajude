@@ -34,7 +34,10 @@
 
 * [Backend](https://github.com/ManoMax/backend_AJuDE).
 * [Frontend](https://github.com/EuclidesRamos/frontend_AJuDE).
-* Orientação por: [@daltonserey](https://github.com/daltonserey), [@raquelvl](https://github.com/raquelvl) e [@juliafealves](https://github.com/juliafealves).
+* Orientação por: 
+  * [@daltonserey](https://github.com/daltonserey);
+  * [@raquelvl](https://github.com/raquelvl);
+  * [@juliafealves](https://github.com/juliafealves).
 * [Especificações](https://docs.google.com/document/d/1h5WhnOhvyRmIbj_obhWK5XmoJgK35lVWPM2UwwMOT_Y/preview#heading=h.hfzc6dzi4lux) .
 
 <p><i>
