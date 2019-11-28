@@ -31,7 +31,12 @@ public class UsuarioController {
 
     @PostMapping("")
     public ResponseEntity<UsuarioDTO> addUsuario(@RequestBody Usuario usuario) {
-        return new ResponseEntity<UsuarioDTO>(usuarioServices.addUsuario(usuario), HttpStatus.OK);
+        UsuarioDTO usuarioDTO = usuarioServices.addUsuario(usuario);
+        if (usuarioDTO != null) {
+            return new ResponseEntity<UsuarioDTO>(usuarioDTO, HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(HttpStatus.CONFLICT);
+        }
     }
 
     @GetMapping("/{urlUser}")

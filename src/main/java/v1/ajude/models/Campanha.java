@@ -7,6 +7,8 @@ import v1.ajude.dtos.UsuarioDTO;
 import javax.persistence.*;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.LinkedList;
 import java.util.List;
 
 @Entity
@@ -55,7 +57,7 @@ public class Campanha {
         this.meta = meta;
         this.doacoes = 0;
         this.dono = dono;
-        this.comentarios = new ArrayList<Comentario>();
+        this.comentarios = new LinkedList<Comentario>();
         this.likes = new ArrayList<Likes>();
         this.listaDoacoes = new ArrayList<Doacao>();
         this.contLike = 0;
@@ -100,7 +102,9 @@ public class Campanha {
         return usuarioDTO;
     }
     public List<Comentario> getComentarios() {
-        return this.comentarios;
+        List<Comentario> comentarios = new LinkedList<>(this.comentarios);
+        Collections.reverse(comentarios);
+        return comentarios;
     }
     public Comentario getComentario(int idComentario) {
         return this.comentarios.get(idComentario);

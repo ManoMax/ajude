@@ -4,7 +4,8 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import v1.ajude.dtos.UsuarioDTO;
 
 import javax.persistence.*;
-import java.util.ArrayList;
+import java.util.Collections;
+import java.util.LinkedList;
 import java.util.List;
 
 @Entity
@@ -37,7 +38,7 @@ public class Comentario{
         this.campanha = campanha;
         this.usuario = usuario;
         this.textoComentario = textoComentario;
-        this.respostas = new ArrayList<Resposta>();
+        this.respostas = new LinkedList<Resposta>();
         this.apagado = false;
     }
 
@@ -60,7 +61,9 @@ public class Comentario{
     	return this.textoComentario;
     }
     public List<Resposta> getRespostas() {
-        return this.respostas;
+        List<Resposta> respostas = new LinkedList<>(this.respostas);
+        Collections.reverse(respostas);
+        return respostas;
     }
     public boolean getApagado() {
         return this.apagado;
