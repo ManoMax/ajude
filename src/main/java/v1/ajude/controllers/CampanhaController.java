@@ -167,7 +167,7 @@ public class CampanhaController {
         return new ResponseEntity<Campanha>(HttpStatus.UNAUTHORIZED);
     }
 
-    @GetMapping("/busca/{substring}")
+    @RequestMapping("/busca/{substring}")
     public ResponseEntity<List<Campanha>> getCampanhasPorSubString(@PathVariable String substring) {
         return new ResponseEntity<List<Campanha>>(campanhaServices.getCampanhas(substring), HttpStatus.OK);
     }
