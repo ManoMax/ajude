@@ -35,7 +35,7 @@
 * Backend: [https://github.com/ManoMax/backend_AJuDE](https://github.com/ManoMax/backend_AJuDE).
 * Frontend: [https://github.com/EuclidesRamos/frontend_AJuDE](https://github.com/EuclidesRamos/frontend_AJuDE).
 * Servidor Heroku: [https://ajudeproject.herokuapp.com](https://ajudeproject.herokuapp.com).
-* Apresentação em Vídeo: [https://youtu.be/VXHUHHhIRRs](https://youtu.be/VXHUHHhIRRs).
+* Apresentação em Vídeo: [https://www.youtube.com/watch?v=Gicpcce1_bI](https://www.youtube.com/watch?v=Gicpcce1_bI).
 * Orientação por: 
   * [@daltonserey](https://github.com/daltonserey);
   * [@raquelvl](https://github.com/raquelvl);
