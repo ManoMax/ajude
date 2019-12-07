@@ -1,12 +1,12 @@
 # AJuDE: AquiJUntosDoandoEsperança
+### Projeto de Software 2019.2
 #### Universidade Federal de Campina Grande
 
 <p align="center">
   <img width="400" height="180" src="https://i.imgur.com/TR683cb.png">
 </p>
 
-### Projeto de Software 2019.2
-
+---
 #### API REST
 * **Campanha API**
   * **POST /api/v1/campanha** - Passando a campanha na requisição HTTP por um JSON (contendo nomeCurto, descricao, deadLine e url como String e meta como inteiro) no corpo da requisição, além do idToken Login no header. O servidor registra os dados, do Usuário dono e, da Campanha. Retornando um JSON, que contem esses dados, porém com as informações do Usuário dono filtradas (sem a senha e número de Cartão).
@@ -31,7 +31,7 @@
   
 * **Login API**
   * **POST /api/v1/login** - Enviando um JSON (contendo um email e senha) do Usuário, a requisição retorna um JSON (contendo "idToken": "token") do Login.
-
+---
 #### Informações Importantes
 
 * Backend: [https://github.com/ManoMax/backend_AJuDE](https://github.com/ManoMax/backend_AJuDE).
@@ -45,9 +45,10 @@
   * [@juliafealves](https://github.com/juliafealves).
 * [Especificações](https://docs.google.com/document/d/1h5WhnOhvyRmIbj_obhWK5XmoJgK35lVWPM2UwwMOT_Y/preview#heading=h.hfzc6dzi4lux) .
 
+
 <p><i>
   
-Author: [@ManoMax](https://github.com/ManoMax)
-<br>Co-author: [@EuclidesRamos](https://github.com/EuclidesRamos)
+>*Author: [@ManoMax](https://github.com/ManoMax)
+<br>Co-author: [@EuclidesRamos](https://github.com/EuclidesRamos)*
 
 </i></p>
