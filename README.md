@@ -1,7 +1,9 @@
 # AJuDE: AquiJUntosDoandoEsperança
 #### Universidade Federal de Campina Grande
 
-![AjudeProject](https://i.imgur.com/TR683cb.png)
+<p align="center">
+  <img width="400" height="180" src="https://i.imgur.com/TR683cb.png">
+</p>
 
 ### Projeto de Software 2019.2
 
