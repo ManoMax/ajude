@@ -7,6 +7,11 @@
 </p>
 
 ---
+
+A AJuDE, possui a finalidade de promover a Criação e Cooperação em Camoanhas,
+seja fazendo doações ou, ajudando a divulga-las.
+
+---
 #### API REST
 * **Campanha API**
   * **POST /api/v1/campanha** - Passando a campanha na requisição HTTP por um JSON (contendo nomeCurto, descricao, deadLine e url como String e meta como inteiro) no corpo da requisição, além do idToken Login no header. O servidor registra os dados, do Usuário dono e, da Campanha. Retornando um JSON, que contem esses dados, porém com as informações do Usuário dono filtradas (sem a senha e número de Cartão).
