@@ -8,7 +8,7 @@
 
 ---
 
-A AJuDE, possui a finalidade de promover a Criação e Cooperação em Camoanhas,
+A AJuDE, possui a finalidade de promover a Criação e Cooperação em Campanhas,
 seja fazendo doações ou, ajudando a divulga-las.
 
 ### Backend
