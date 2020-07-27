@@ -2,18 +2,23 @@
 ### Projeto de Software 2019.2
 #### Universidade Federal de Campina Grande
 
-<p align="center">
-  <img width="400" height="180" src="https://i.imgur.com/TR683cb.png">
-</p>
+## 💸 O Projeto
+O AJuDE é uma plataforma que, além de permitir a organização de doações para projetos/campanhas, <br>
+divulga as causas mais populares, para que as mesmas ganhem ainda mais visibilidade. <br>
+Cada projeto (ou campanha) será atendido quando conseguir arrecadar uma quantidade de doações igual ou superior à meta. <br>
+O sistema permite que usuários classifiquem os projetos e escrevam comentários sobre os mesmos. <br>
+Os usuários da aplicação criam projetos com suas metas e, a partir desse momento, o sistema começa a arrecadação, <br>
+permite classificar, dar like/dislike e ainda escrever comentários sobre esses projetos.<br>
 
----
 
-A AJuDE, possui a finalidade de promover a Criação e Cooperação em Campanhas,
-seja fazendo doações ou, ajudando a divulga-las.
+### 💻 Deploy atual [aqui](https://ajudefront.herokuapp.com/index.html).
+### 🎥 Demo do projeto [aqui](https://www.youtube.com/playlist?list=PLYYkUGaZ2RV5bkE00bHfpStxr-AATli3Y).
+### 📮 Parte Frontend [aqui](https://github.com/EuclidesRamos/frontend_AJuDE).
 
-### Backend
+![AjudeProject](https://i.imgur.com/TR683cb.png)
 
----
+## Estrutura
+
 #### API REST
 * **Campanha API**
   * **POST /api/v1/campanha** - Passando a campanha na requisição HTTP por um JSON (contendo nomeCurto, descricao, deadLine e url como String e meta como inteiro) no corpo da requisição, além do idToken Login no header. O servidor registra os dados, do Usuário dono e, da Campanha. Retornando um JSON, que contem esses dados, porém com as informações do Usuário dono filtradas (sem a senha e número de Cartão).
@@ -39,13 +44,19 @@ seja fazendo doações ou, ajudando a divulga-las.
 * **Login API**
   * **POST /api/v1/login** - Enviando um JSON (contendo um email e senha) do Usuário, a requisição retorna um JSON (contendo "idToken": "token") do Login.
 ---
+
+## Tecnologias utilizadas
+
+* **Java:**
+    * Web Services REStful foi utilizado para fazer requests ao back-end e estruturar todas as funcionalidades do sistema.
+* **Spring Boot:**
+    * Aplicação baseada no Spring MVC, utilizando o Hibernate + JPA, elaborando toda a Framework do banco de dados.
+* **JWT:**
+    * Recurso utilizado para Autenticação, Login e Logoff de Usuários.
+    
+    
 #### Informações Importantes
 
-* Backend: [https://github.com/ManoMax/backend_AJuDE](https://github.com/ManoMax/backend_AJuDE).
-* Frontend: [https://github.com/EuclidesRamos/frontend_AJuDE](https://github.com/EuclidesRamos/frontend_AJuDE).
-* Deploy FrontEnd Heroku: [https://ajudefront.herokuapp.com](https://ajudefront.herokuapp.com).
-* Deploy BackEnd Heroku: [https://ajudeproject.herokuapp.com](https://ajudeproject.herokuapp.com).
-* Apresentação em Vídeo: [https://www.youtube.com/watch?v=Gicpcce1_bI](https://www.youtube.com/watch?v=Gicpcce1_bI).
 * Orientação por: 
   * [@daltonserey](https://github.com/daltonserey);
   * [@raquelvl](https://github.com/raquelvl);
