@@ -11,7 +11,7 @@ Os usuários da aplicação criam projetos com suas metas e, a partir desse mome
 permite classificar, dar like/dislike e ainda escrever comentários sobre esses projetos.<br>
 
 
-### 💻 Deploy atual [aqui](https://ajudefront.herokuapp.com/index.html).
+### 💻 Deploy atual [aqui](https://ajudefront.herokuapp.com/index.html). (Versão anterior a avaliação acadêmica).
 ### 🎥 Demo do projeto [aqui](https://www.youtube.com/playlist?list=PLYYkUGaZ2RV5bkE00bHfpStxr-AATli3Y).
 ### 📮 Parte Frontend [aqui](https://github.com/EuclidesRamos/frontend_AJuDE).
 
