@@ -1,25 +1,27 @@
-# AJuDE: AquiJUntosDoandoEsperança
-### Projeto de Software 2019.2
-#### Universidade Federal de Campina Grande
+<h1> AJuDE: AquiJUntosDoandoEsperança </h1>
+<h3> Projeto de Software 2019.2 </3>
+<h4> Universidade Federal de Campina Grande </h4>
 
-## 💸 O Projeto
+<h2> 💸 O Projeto </h2>
+<p>
 O AJuDE é uma plataforma que, além de permitir a organização de doações para projetos/campanhas, <br>
 divulga as causas mais populares, para que as mesmas ganhem ainda mais visibilidade. <br>
 Cada projeto (ou campanha) será atendido quando conseguir arrecadar uma quantidade de doações igual ou superior à meta. <br>
 O sistema permite que usuários classifiquem os projetos e escrevam comentários sobre os mesmos. <br>
 Os usuários da aplicação criam projetos com suas metas e, a partir desse momento, o sistema começa a arrecadação, <br>
 permite classificar, dar like/dislike e ainda escrever comentários sobre esses projetos.<br>
+</p>
 
-
-### 💻 Deploy atual [aqui](https://ajudefront.herokuapp.com/index.html). (Versão anterior a avaliação acadêmica).
-### 🎥 Demo do projeto [aqui](https://www.youtube.com/playlist?list=PLYYkUGaZ2RV5bkE00bHfpStxr-AATli3Y).
-### 📮 Parte Frontend [aqui](https://github.com/EuclidesRamos/frontend_AJuDE).
+<h3> 💻 Deploy atual <a href="https://ajudefront.herokuapp.com/index.html)">aqui</a>. (Versão anterior a avaliação acadêmica).
+<h3> 🎥 Demo do projeto <a href="https://www.youtube.com/playlist?list=PLYYkUGaZ2RV5bkE00bHfpStxr-AATli3Y">aqui</a>. </h3>
+<h3> 📮 Parte Frontend <a href="https://github.com/EuclidesRamos/frontend_AJuDE">aqui</a>. </h3>
 
 ![AjudeProject](https://i.imgur.com/TR683cb.png)
 
-## Estrutura
+<h2> Estrutura </h2>
 
-#### API REST
+<h4> API REST </h4>
+
 * **Campanha API**
   * **POST /api/v1/campanha** - Passando a campanha na requisição HTTP por um JSON (contendo nomeCurto, descricao, deadLine e url como String e meta como inteiro) no corpo da requisição, além do idToken Login no header. O servidor registra os dados, do Usuário dono e, da Campanha. Retornando um JSON, que contem esses dados, porém com as informações do Usuário dono filtradas (sem a senha e número de Cartão).
   * **GET /api/v1//campanha/{urlCampanha}** - Contendo um idToken Login no header. Retorna um JSON com a informações resumidas do Dono, além da Campanha, e o código 200.
@@ -45,7 +47,7 @@ permite classificar, dar like/dislike e ainda escrever comentários sobre esses 
   * **POST /api/v1/login** - Enviando um JSON (contendo um email e senha) do Usuário, a requisição retorna um JSON (contendo "idToken": "token") do Login.
 ---
 
-## Tecnologias utilizadas
+<h2> Tecnologias utilizadas </h2>
 
 * **Java:**
     * Web Services REStful foi utilizado para fazer requests ao back-end e estruturar todas as funcionalidades do sistema.
@@ -55,7 +57,7 @@ permite classificar, dar like/dislike e ainda escrever comentários sobre esses 
     * Recurso utilizado para Autenticação, Login e Logoff de Usuários.
     
     
-#### Informações Importantes
+<h4> Informações Importantes </h4>
 
 * Orientação por: 
   * [@daltonserey](https://github.com/daltonserey);
